@@ -1,23 +1,24 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "lianmaymesi/laravel-cms",
+    "description": "A simple package for creating CMS pages.",
     "keywords": [
-        ":vendor_name",
+        "lianmaymesi",
         "laravel",
-        ":package_slug"
+        "laravel-cms"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/lianmaymesi/laravel-cms",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Lian Dhas I M",
+            "email": "lianmay.mesi@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.2",
         "spatie/laravel-package-tools": "^1.16",
+        "lianmaymesi/laravel-backend": "^0.9",
         "illuminate/contracts": "^10.0||^11.0"
     },
     "require-dev": {
@@ -30,24 +31,23 @@
         "pestphp/pest-plugin-laravel": "^2.3",
         "phpstan/extension-installer": "^1.3",
         "phpstan/phpstan-deprecation-rules": "^1.1",
-        "phpstan/phpstan-phpunit": "^1.3",
-        "spatie/laravel-ray": "^1.35"
+        "phpstan/phpstan-phpunit": "^1.3"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Lianmaymesi\\LaravelCms\\": "src/",
+            "Lianmaymesi\\LaravelCms\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Lianmaymesi\\LaravelCms\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
     "scripts": {
         "post-autoload-dump": "@composer run prepare",
-        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "clear": "@php vendor/bin/testbench package:purge-laravel-cms --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
             "@composer run prepare",
@@ -73,10 +73,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Lianmaymesi\\LaravelCms\\LaravelCmsServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelCms": "Lianmaymesi\\LaravelCms\\Facades\\LaravelCms"
             }
         }
     },
