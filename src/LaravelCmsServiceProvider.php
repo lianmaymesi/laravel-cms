@@ -2,9 +2,9 @@
 
 namespace Lianmaymesi\LaravelCms;
 
+use Lianmaymesi\LaravelCms\Commands\LaravelCmsCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Lianmaymesi\LaravelCms\Commands\LaravelCmsCommand;
 
 class LaravelCmsServiceProvider extends PackageServiceProvider
 {
