@@ -2,8 +2,12 @@
 
 namespace Lianmaymesi\LaravelCms;
 
-use Lianmaymesi\LaravelCms\Commands\LaravelCmsCommand;
+use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Package;
+use Lianmaymesi\LaravelCms\Commands\LaravelCmsCommand;
+use Lianmaymesi\LaravelCms\Livewire\CMS\IndexMenu;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Modal\CreateMenuModal;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\IndexPage;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelCmsServiceProvider extends PackageServiceProvider
@@ -18,8 +22,16 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-cms')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel_cms_table')
+            ->hasViews('cms')
+            ->hasRoute('web')
+            ->hasMigration('create_cms_table')
             ->hasCommand(LaravelCmsCommand::class);
+    }
+
+    public function bootingPackage()
+    {
+        Livewire::component('create-menu-modal', CreateMenuModal::class);
+        Livewire::component('index-menu', IndexMenu::class);
+        Livewire::component('index-page', IndexPage::class);
     }
 }

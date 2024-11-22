@@ -1,0 +1,30 @@
+{
+    "name": "laravel-cms",
+    "version": "1.0.0",
+    "description": "[![Latest Version on Packagist](https://img.shields.io/packagist/v/lianmaymesi/laravel-cms.svg?style=flat-square)](https://packagist.org/packages/lianmaymesi/laravel-cms)\r [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/lianmaymesi/laravel-cms/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/lianmaymesi/laravel-cms/actions?query=workflow%3Arun-tests+branch%3Amain)\r [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/lianmaymesi/laravel-cms/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/lianmaymesi/laravel-cms/actions?query=workflow%3A\"Fix+PHP+code+style+issues\"+branch%3Amain)\r [![Total Downloads](https://img.shields.io/packagist/dt/lianmaymesi/laravel-cms.svg?style=flat-square)](https://packagist.org/packages/lianmaymesi/laravel-cms)",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@tailwindcss/forms": "^0.5.6",
+        "@tailwindcss/typography": "^0.5.10",
+        "autoprefixer": "^10.4.16",
+        "laravel-vite-plugin": "^0.8.1",
+        "livewire-sortable": "^1.0.0",
+        "postcss": "^8.4.31",
+        "tailwindcss": "^3.3.3",
+        "vite": "^4.5.5"
+    },
+    "dependencies": {
+        "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
+        "alpinejs": "^3.13.3"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}

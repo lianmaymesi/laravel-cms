@@ -6,14 +6,104 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
-        Schema::create('laravel_cms_table', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->string('name', 50);
+            $table->string('code', 10);
             $table->timestamps();
         });
+
+        Schema::create('menus', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('parent_id')->nullable()->references('id')->on('menus')->nullOnDelete();
+            $table->string('label');
+            $table->json('placement');
+            $table->boolean('search_visible');
+            $table->integer('order')->unsigned();
+            $table->boolean('have_page')->default(false);
+            $table->string('route')->nullable();
+            $table->boolean('is_toplevel')->default(false);
+            $table->string('status');
+            $table->drafts();
+            $table->timestamps();
+        });
+
+        Schema::create('pages', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('menu_id')->nullable()->references('id')->on('menus')->nullOnDelete();
+            $table->string('featured_image')->nullable();
+            $table->text('head_scripts')->nullable();
+            $table->text('footer_scripts')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('menu_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('menu_id')->references('id')->on('menus')->onDelete('cascade');
+            $table->foreignId('language_id')->nullable()->references('id')->on('languages')->nullOnDelete();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->timestamps();
+        });
+
+        Schema::create('page_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('page_id')->references('id')->on('pages')->onDelete('cascade');
+            $table->foreignId('language_id')->nullable()->references('id')->on('languages')->nullOnDelete();
+            $table->string('title');
+            $table->string('meta_title')->nullable();
+            $table->string('meta_description')->nullable();
+            $table->json('meta_tags')->nullable();
+            $table->string('featured_image')->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create('themes', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->boolean('is_default');
+            $table->timestamps();
+        });
+
+        Schema::create('sections', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('theme_id')->references('id')->on('themes')->onDelete('cascade');
+            $table->string('title');
+            $table->string('section_file');
+            $table->timestamps();
+        });
+
+        Schema::create('section_skeletons', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->json('skeleton');
+            $table->timestamps();
+        });
+
+        Schema::create('page_sections', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('page_id')->references('id')->on('pages')->onDelete('cascade');
+            $table->foreignId('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->json('data')->nullable();
+            $table->integer('order')->unsigned()->nullable();
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('page_sections');
+        Schema::dropIfExists('section_skeletons');
+        Schema::dropIfExists('sections');
+        Schema::dropIfExists('themes');
+        Schema::dropIfExists('menu_translations');
+        Schema::dropIfExists('page_translations');
+        Schema::dropIfExists('pages');
+        Schema::dropIfExists('menus');
+        Schema::dropIfExists('languages');
     }
 };
