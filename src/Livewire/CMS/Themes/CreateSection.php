@@ -2,9 +2,9 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Themes;
 
-use Psy\Output\Theme;
-use Livewire\Attributes\Layout;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
+use Livewire\Attributes\Layout;
+use Psy\Output\Theme;
 
 #[Layout('components.marketing.layouts.admin')]
 class CreateSection extends BaseComponent
@@ -12,27 +12,34 @@ class CreateSection extends BaseComponent
     public $page_title = 'Create Section';
 
     public $title;
+
     public $theme_id;
+
     public $subSection = [];
+
     public $settings = [
         'screens' => [
             'sm' => 1,
             'md' => 2,
             'lg' => 4,
             'xl' => 0,
-            '2xl' => 0
-        ]
+            '2xl' => 0,
+        ],
     ];
+
     public $skeletonValues;
+
     public $config = [];
+
     public $bladeFiles = [];
+
     public $section_file;
 
     public function addColumn()
     {
         $this->subSection[] = [
             'id' => count($this->subSection) + 1,
-            'skeleton' => []
+            'skeleton' => [],
         ];
     }
 
@@ -49,6 +56,7 @@ class CreateSection extends BaseComponent
             if ($section['id'] == $columnIndex) {
                 $section['skeleton'] = array_merge($section['skeleton'], $val);
             }
+
             return $section;
         })->toArray();
         $this->subSection[$key] = $valM[$key];
@@ -62,7 +70,7 @@ class CreateSection extends BaseComponent
         // First count all occurrences of each value type
         foreach ($this->subSection[$key]['skeleton'] as $item) {
             $baseItem = preg_replace('/_\d+$/', '', $item);
-            if (!isset($valuesCount[$baseItem])) {
+            if (! isset($valuesCount[$baseItem])) {
                 $valuesCount[$baseItem] = 0;
             } else {
                 $valuesCount[$baseItem]++;
@@ -75,12 +83,13 @@ class CreateSection extends BaseComponent
         // Assign unique suffixes based on the updated counts
         $this->subSection[$key]['skeleton'] = array_map(function ($item) use (&$valuesCount) {
             $baseItem = preg_replace('/_\d+$/', '', $item);
-            if (!isset($valuesCount[$baseItem])) {
+            if (! isset($valuesCount[$baseItem])) {
                 $valuesCount[$baseItem] = 0;
             } else {
                 $valuesCount[$baseItem]++;
             }
-            return $baseItem . '_' . $valuesCount[$baseItem];
+
+            return $baseItem.'_'.$valuesCount[$baseItem];
         }, $this->subSection[$key]['skeleton']);
     }
 
@@ -104,7 +113,7 @@ class CreateSection extends BaseComponent
         foreach ($this->subSection as $item) {
             $section[] = [
                 'id' => $i + 1,
-                'skeleton' => $item['skeleton']
+                'skeleton' => $item['skeleton'],
             ];
             $i++;
         }
@@ -140,6 +149,7 @@ class CreateSection extends BaseComponent
                 usort($section['skeleton'], function ($a, $b) use ($orderMap, $sectionId) {
                     $orderA = $orderMap[$sectionId][$a] ?? PHP_INT_MAX;
                     $orderB = $orderMap[$sectionId][$b] ?? PHP_INT_MAX;
+
                     return $orderA <=> $orderB;
                 });
             }
@@ -148,7 +158,7 @@ class CreateSection extends BaseComponent
 
     public function updatedThemeId($theme)
     {
-        $directory = resource_path('views/components/user/themes/' . Theme::where('id', $theme)->first()->slug);
+        $directory = resource_path('views/components/user/themes/'.Theme::where('id', $theme)->first()->slug);
 
         $this->bladeFiles = collect(File::files($directory))
             ->filter(function ($file) {
@@ -166,7 +176,7 @@ class CreateSection extends BaseComponent
             'theme_id' => 'required|exists:themes,id',
             'subSection' => 'required|array',
             'settings' => 'required|array',
-            'section_file' => 'required'
+            'section_file' => 'required',
         ]);
 
         DB::transaction(function () use ($data) {
@@ -174,18 +184,18 @@ class CreateSection extends BaseComponent
             $section = Section::create([
                 'title' => $data['title'],
                 'theme_id' => $data['theme_id'],
-                'section_file' => $data['section_file']
+                'section_file' => $data['section_file'],
             ]);
 
             $section->skeleton()->create([
                 'skeleton' => json_encode(array_merge(
                     [
-                        'data' => $this->mergeModelData($data['subSection'], $this->config)
+                        'data' => $this->mergeModelData($data['subSection'], $this->config),
                     ],
                     [
-                        'settings' => $data['settings']
+                        'settings' => $data['settings'],
                     ]
-                ))
+                )),
             ]);
         });
 
@@ -202,15 +212,17 @@ class CreateSection extends BaseComponent
     public function allmodels()
     {
         $modelList = [];
-        $path = app_path() . "/Models";
+        $path = app_path().'/Models';
         $results = scandir($path);
 
         foreach ($results as $result) {
-            if ($result === '.' or $result === '..') continue;
+            if ($result === '.' or $result === '..') {
+                continue;
+            }
 
             // Check if it's a file
-            if (is_file($path . '/' . $result)) {
-                $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
+            if (is_file($path.'/'.$result)) {
+                $model = "\App\\Models\\".pathinfo($result, PATHINFO_FILENAME);
 
                 // Check if the model has the WIDGET constant
                 if (defined("$model::WIDGET") && $model::WIDGET) {

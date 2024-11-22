@@ -2,15 +2,17 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Modal;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Lianmaymesi\LaravelCms\Models\PageSuccessLink;
 use Lianmaymesi\LaravelCms\Livewire\Forms\PageSuccessLinkForm;
+use Lianmaymesi\LaravelCms\Models\PageSuccessLink;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 class CreatePageSuccessLinkModal extends Component
 {
     public ?PageSuccessLink $link = null;
+
     public PageSuccessLinkForm $form;
+
     public $page_id;
 
     public $show = false;

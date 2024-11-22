@@ -2,31 +2,40 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\Forms;
 
-use Livewire\Form;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
-use Lianmaymesi\LaravelCms\Models\Menu;
+use Illuminate\Support\Facades\DB;
 use Lianmaymesi\LaravelCms\Models\Language;
+use Lianmaymesi\LaravelCms\Models\Menu;
+use Livewire\Form;
 
 class MenuForm extends Form
 {
     public ?Menu $menu = null;
 
     public $label;
+
     public $placement = ['header'];
+
     public $search_visible = 1;
+
     public $order;
+
     public $status = 'publish';
+
     public $parent_id;
+
     public $have_page = false;
+
     public $route;
+
     public $is_toplevel = 1;
+
     public $is_published = true;
 
     public $language;
 
     public $translations = [
-        'title' => ''
+        'title' => '',
     ];
 
     public function add()
@@ -37,7 +46,7 @@ class MenuForm extends Form
             'search_visible' => 'required|boolean',
             'status' => 'required|string',
             'parent_id' => 'nullable|exists:menus,id',
-            'translations.title' => 'required|string'
+            'translations.title' => 'required|string',
         ]);
 
         if ($this->menu) {
@@ -50,7 +59,7 @@ class MenuForm extends Form
                 }
                 $this->menu->translations()->where('language_id', Language::where('code', $this->language)->first()->id)
                     ->update([
-                        'title' => $this->translations['title']
+                        'title' => $this->translations['title'],
                     ]);
             });
         } else {
@@ -60,10 +69,11 @@ class MenuForm extends Form
                 }
                 $menu = Menu::create($this->except(['translations', 'menu', 'language']));
                 $translation = $menu->translations()->create([
-                    'title' => $this->translations['title']
+                    'title' => $this->translations['title'],
                 ]);
                 $translation->language()->associate(Language::where('code', $this->language)->first());
                 $translation->save();
+
                 return $menu->id;
             });
         }

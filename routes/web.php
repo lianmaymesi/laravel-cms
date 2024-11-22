@@ -3,11 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use Lianmaymesi\LaravelCms\Livewire\CMS\IndexMenu;
 use Lianmaymesi\LaravelCms\Livewire\CMS\IndexTheme;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\CreatePage;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\EditPage;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\IndexPage;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\CreatePage;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\IndexSection;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\CreateSection;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\IndexSection;
 
 Route::prefix(config('cms.route_prefix'))->name('cms.')->middleware('web')->group(function () {
     Route::get('/menus', IndexMenu::class)->name('menus.index');

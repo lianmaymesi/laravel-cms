@@ -7,16 +7,27 @@ use Livewire\Component;
 abstract class BaseComponent extends Component
 {
     public $sortDirection = 'asc';
+
     public $sortField = 'updated_at';
+
     protected $queryString = ['sortField', 'sortDirection'];
+
     public $selected_id;
+
     public $perPage = '10';
+
     public array $selectedColumns = [];
+
     public array $columns = [];
+
     public $selectedRow = [];
+
     public $selectAllRow = false;
+
     public string $search = '';
+
     public $showDeleteModal = false;
+
     public array $filters = [];
 
     public function sortBy($field)
@@ -42,13 +53,13 @@ abstract class BaseComponent extends Component
 
     public function showColumn($value)
     {
-        return !in_array($value, $this->selectedColumns);
+        return ! in_array($value, $this->selectedColumns);
     }
 
     public function updatedSelectAllRow($value)
     {
         $this->selectedRow = $value
-            ? $this->thisPageQuery->pluck('id')->map(fn($id) => (string) $id)
+            ? $this->thisPageQuery->pluck('id')->map(fn ($id) => (string) $id)
             : [];
     }
 

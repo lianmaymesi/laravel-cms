@@ -6,6 +6,6 @@ return [
     'route_prefix' => env('LARAVEL_CMS_ROUTE_PREFIX', 'cms'),
     'navigation' => [
         'top' => env('LARAVEL_CMS_NAV_TOP', 'navigation-top'),
-        'bottom' => env('LARAVEL_CMS_NAV_BOTTOM', 'navigation-bottom')
-    ]
+        'bottom' => env('LARAVEL_CMS_NAV_BOTTOM', 'navigation-bottom'),
+    ],
 ];

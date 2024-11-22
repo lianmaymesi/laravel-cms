@@ -2,10 +2,9 @@
 
 namespace Lianmaymesi\LaravelCms\Models;
 
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Casts\Json;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 
 class PageSection extends Pivot
 {
@@ -16,7 +15,7 @@ class PageSection extends Pivot
     protected $table = 'page_sections';
 
     protected $casts = [
-        'data' => Json::class
+        'data' => Json::class,
     ];
 
     public function imageUrl($image)

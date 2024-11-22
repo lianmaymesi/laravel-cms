@@ -2,25 +2,25 @@
 
 namespace Lianmaymesi\LaravelCms\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Json;
-use Oddvalue\LaravelDrafts\Concerns\HasDrafts;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Lianmaymesi\LaravelCms\Models\Traits\Orderable;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Lianmaymesi\LaravelCms\Models\Traits\Orderable;
+use Oddvalue\LaravelDrafts\Concerns\HasDrafts;
 
 class Menu extends Model
 {
-    use HasFactory, Orderable, HasDrafts;
+    use HasDrafts, HasFactory, Orderable;
 
     public const WIDGET = false;
 
     protected $guarded = [];
 
     protected $casts = [
-        'placement' => Json::class
+        'placement' => Json::class,
     ];
 
     public static function boot()

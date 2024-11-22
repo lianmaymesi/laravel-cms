@@ -2,9 +2,9 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Pages;
 
-use Livewire\Attributes\Layout;
-use Lianmaymesi\LaravelCms\Models\Page;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
+use Lianmaymesi\LaravelCms\Models\Page;
+use Livewire\Attributes\Layout;
 
 #[Layout('cms::components.layouts.cms-app')]
 class IndexPage extends BaseComponent
@@ -23,7 +23,7 @@ class IndexPage extends BaseComponent
         return view('cms::livewire.c-m-s.pages.index-page', [
             'pages' => Page::with(['menu' => function ($query) {
                 return $query->withDrafts(true);
-            }, 'detail', 'sections'])->paginate($this->perPage)
+            }, 'detail', 'sections'])->paginate($this->perPage),
         ]);
     }
 }

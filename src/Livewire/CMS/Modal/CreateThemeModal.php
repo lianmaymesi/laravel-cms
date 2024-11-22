@@ -2,14 +2,15 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Modal;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Lianmaymesi\LaravelCms\Models\Theme;
 use Lianmaymesi\LaravelCms\Livewire\Forms\ThemeForm;
+use Lianmaymesi\LaravelCms\Models\Theme;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 class CreateThemeModal extends Component
 {
     public ?Theme $theme = null;
+
     public ThemeForm $form;
 
     public $show = false;

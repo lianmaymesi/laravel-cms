@@ -2,16 +2,17 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS;
 
-use Livewire\Attributes\On;
-use Livewire\Attributes\Layout;
-use Lianmaymesi\LaravelCms\Models\Menu;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 use Lianmaymesi\LaravelCms\Livewire\Forms\MenuForm;
+use Lianmaymesi\LaravelCms\Models\Menu;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
 
 #[Layout('cms::components.layouts.cms-app')]
 class IndexMenu extends BaseComponent
 {
     public ?Menu $menu = null;
+
     public MenuForm $form;
 
     public $page_title = 'Menu List';
@@ -32,7 +33,7 @@ class IndexMenu extends BaseComponent
     {
         return Menu::with('children')
             ->withDrafts(true)
-            ->when($this->placement, fn($query, $value) => $query->where('placement', $this->placement))
+            ->when($this->placement, fn ($query, $value) => $query->where('placement', $this->placement))
             ->whereNull('parent_id')
             ->orderBy('order', 'asc')
             ->paginate($this->perPage);
@@ -42,7 +43,7 @@ class IndexMenu extends BaseComponent
     {
         Menu::withDrafts(true)->where('id', $menu)->update([
             'status' => $status,
-            'is_published' => $status === 'draft' ? false : true
+            'is_published' => $status === 'draft' ? false : true,
         ]);
     }
 
@@ -66,7 +67,7 @@ class IndexMenu extends BaseComponent
     public function render()
     {
         return view('cms::livewire.c-m-s.index-menu', [
-            'menus' => $this->placement_query
+            'menus' => $this->placement_query,
         ]);
     }
 }

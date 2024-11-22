@@ -2,26 +2,35 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\Forms;
 
-use Livewire\Form;
 use Illuminate\Support\Facades\DB;
-use Lianmaymesi\LaravelCms\Models\Page;
 use Lianmaymesi\LaravelCms\Models\Language;
+use Lianmaymesi\LaravelCms\Models\Page;
+use Livewire\Form;
 
 class PageForm extends Form
 {
     public ?Page $page = null;
 
     public $menu_id;
+
     public $featured_image;
+
     public $head_scripts;
+
     public $footer_scripts;
+
     public $success_scripts;
 
     public $page_featured_image;
+
     public $featured_image_preview;
+
     public $featured_image_trans;
+
     public $featured_image_trans_preview;
+
     public $image_trans;
+
     public $featured_image_success_preview;
 
     public $language;
@@ -35,7 +44,7 @@ class PageForm extends Form
         'success_title' => '',
         'help_title' => '',
         'success_content' => '',
-        'image' => ''
+        'image' => '',
     ];
 
     public function create()
@@ -44,7 +53,7 @@ class PageForm extends Form
             'menu_id' => 'required|exists:menus,id',
             'featured_image' => 'nullable|image',
             'translations' => 'array',
-            'translations.*' => 'required'
+            'translations.*' => 'required',
         ]);
 
         return DB::transaction(function () {
@@ -56,7 +65,7 @@ class PageForm extends Form
 
             $page = Page::create([
                 'menu_id' => $this->menu_id,
-                'featured_image' => $featured_image
+                'featured_image' => $featured_image,
             ]);
 
             if ($this->translations['featured_image']) {
@@ -68,7 +77,7 @@ class PageForm extends Form
                 'meta_title' => $this->translations['meta_title'],
                 'meta_description' => $this->translations['meta_description'],
                 'meta_tags' => json_encode($this->translations['meta_tags']),
-                'featured_image' => $featured_image_trans
+                'featured_image' => $featured_image_trans,
             ]);
             $translation->language()->associate(Language::where('code', $this->language)->first());
             $translation->save();
@@ -86,7 +95,7 @@ class PageForm extends Form
             'translations.image' => 'nullable',
             'head_scripts' => 'nullable|string',
             'footer_scripts' => 'nullable|string',
-            'success_scripts' => 'nullable|string'
+            'success_scripts' => 'nullable|string',
         ]);
 
         if ($this->page_featured_image) {
@@ -99,7 +108,7 @@ class PageForm extends Form
             'head_scripts' => $this->head_scripts,
             'footer_scripts' => $this->footer_scripts,
             'success_scripts' => $this->success_scripts,
-            'featured_image' => $page_featured_image ? $page_featured_image : $this->featured_image
+            'featured_image' => $page_featured_image ? $page_featured_image : $this->featured_image,
         ]);
 
         if ($this->featured_image_trans) {
@@ -124,7 +133,7 @@ class PageForm extends Form
                 'success_content' => $this->translations['success_content'],
                 'help_title' => $this->translations['help_title'],
                 'image' => $succes_image ? $succes_image : $this->translations['image'],
-                'featured_image' => $featured_image_trans ? $featured_image_trans : $this->translations['featured_image']
+                'featured_image' => $featured_image_trans ? $featured_image_trans : $this->translations['featured_image'],
             ]);
     }
 

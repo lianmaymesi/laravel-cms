@@ -2,12 +2,12 @@
 
 namespace Lianmaymesi\LaravelCms;
 
-use Livewire\Livewire;
-use Spatie\LaravelPackageTools\Package;
 use Lianmaymesi\LaravelCms\Commands\LaravelCmsCommand;
 use Lianmaymesi\LaravelCms\Livewire\CMS\IndexMenu;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Modal\CreateMenuModal;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\IndexPage;
+use Livewire\Livewire;
+use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelCmsServiceProvider extends PackageServiceProvider

@@ -2,12 +2,12 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Pages;
 
+use Lianmaymesi\LaravelCms\Livewire\Forms\PageForm;
+use Lianmaymesi\LaravelCms\Models\Menu;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Computed;
-use Lianmaymesi\LaravelCms\Models\Menu;
-use Lianmaymesi\LaravelCms\Livewire\Forms\PageForm;
 
 #[Layout('components.marketing.layouts.admin')]
 class CreatePage extends Component

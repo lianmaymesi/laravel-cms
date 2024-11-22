@@ -2,8 +2,8 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Skeleton;
 
-use Livewire\Component;
 use Lianmaymesi\LaravelCms\Models\SectionSkeleton;
+use Livewire\Component;
 
 class ViewSkeleton extends Component
 {
