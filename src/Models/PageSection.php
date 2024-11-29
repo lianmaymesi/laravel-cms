@@ -15,7 +15,7 @@ class PageSection extends Pivot
     protected $table = 'page_sections';
 
     protected $casts = [
-        'data' => Json::class
+        'data' => Json::class,
     ];
 
     public function imageUrl($image)

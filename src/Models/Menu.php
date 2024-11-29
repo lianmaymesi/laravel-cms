@@ -13,14 +13,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Menu extends Model
 {
-    use HasFactory, Orderable, HasDrafts;
+    use HasDrafts, HasFactory, Orderable;
 
     public const WIDGET = false;
 
     protected $guarded = [];
 
     protected $casts = [
-        'placement' => Json::class
+        'placement' => Json::class,
     ];
 
     public static function boot()

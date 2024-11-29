@@ -2,21 +2,22 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\Forms;
 
-use Livewire\Form;
 use Lianmaymesi\LaravelCms\Models\Theme;
+use Livewire\Form;
 
 class ThemeForm extends Form
 {
     public ?Theme $theme = null;
 
     public $title;
+
     public $is_default = true;
 
     public function save()
     {
         $this->validate([
             'title' => 'required|string',
-            'is_default' => 'required|boolean'
+            'is_default' => 'required|boolean',
         ]);
 
         Theme::create($this->except('theme'));

@@ -17,7 +17,7 @@ class SectionSkeleton extends Model
     protected function casts(): array
     {
         return [
-            'skeleton' => Json::class
+            'skeleton' => Json::class,
         ];
     }
 }

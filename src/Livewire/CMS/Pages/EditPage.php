@@ -2,14 +2,14 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Pages;
 
-use Livewire\Attributes\On;
-use Livewire\WithFileUploads;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Computed;
-use Lianmaymesi\LaravelCms\Models\Page;
-use Lianmaymesi\LaravelCms\Models\Section;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 use Lianmaymesi\LaravelCms\Livewire\Forms\PageForm;
+use Lianmaymesi\LaravelCms\Models\Page;
+use Lianmaymesi\LaravelCms\Models\Section;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
+use Livewire\WithFileUploads;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 #[Layout('cms::components.layouts.cms-app')]
@@ -18,12 +18,15 @@ class EditPage extends BaseComponent
     use WithFileUploads;
 
     public Page $page;
+
     public PageForm $form;
 
     public $page_title = 'Edit Page';
 
     public $sections_data = [];
+
     public $original_data = [];
+
     public $language;
 
     public function mount(Page $page)
@@ -33,7 +36,7 @@ class EditPage extends BaseComponent
         $this->form->setPage($page);
         $sections_data = $page->sections->mapToGroups(function ($section, $key) {
             return [
-                $section->pivot->id => $this->extractData($section->pivot->data, $this->language)
+                $section->pivot->id => $this->extractData($section->pivot->data, $this->language),
             ];
         })->map(function ($items) {
             return $items->reduce(function ($carry, $item) {
@@ -45,7 +48,7 @@ class EditPage extends BaseComponent
 
         $this->original_data = $page->sections->mapToGroups(function ($section, $key) {
             return [
-                $section->pivot->id => $section->pivot->data
+                $section->pivot->id => $section->pivot->data,
             ];
         })->map(function ($items) {
             return $items->reduce(function ($carry, $item) {
@@ -56,7 +59,7 @@ class EditPage extends BaseComponent
 
     private function extractData($array, $lang)
     {
-        if (!isset($array)) {
+        if (! isset($array)) {
             return [];
         }
 
@@ -95,8 +98,8 @@ class EditPage extends BaseComponent
         $transformed = [];
 
         foreach ($sections as $section) {
-            $id = $section["id"];
-            $skeleton = $section["skeleton"];
+            $id = $section['id'];
+            $skeleton = $section['skeleton'];
             $transformed[$id] = [];
             foreach ($skeleton as $key => $value) {
                 if (str_contains($key, 'cta')) {
@@ -132,17 +135,13 @@ class EditPage extends BaseComponent
     public function allmodels()
     {
         $modelList = [];
-        $path = app_path() . "/Models";
+        $path = app_path() . '/Models';
         $results = scandir($path);
 
         foreach ($results as $result) {
             if ($result === '.' or $result === '..')
-
-                // Check if it's a file
                 if (is_file($path . '/' . $result)) {
                     $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
-
-                    // Check if the model has the WIDGET constant
                     if (defined("$model::WIDGET") && $model::WIDGET) {
                         $modelList[] = pathinfo($result, PATHINFO_FILENAME);
                     }
@@ -156,7 +155,7 @@ class EditPage extends BaseComponent
     {
         foreach ($sections_order as $section) {
             $this->page->sections()->wherePivot('id', $section['value'])->update([
-                'order' => $section['order']
+                'order' => $section['order'],
             ]);
         }
     }

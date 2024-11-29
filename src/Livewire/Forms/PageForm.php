@@ -19,7 +19,6 @@ class PageForm extends Form
     public $featured_image;
     public $head_scripts;
     public $footer_scripts;
-
     public $page_featured_image;
     public $featured_image_preview;
     public $featured_image_trans;
@@ -58,7 +57,7 @@ class PageForm extends Form
 
             $page = Page::create([
                 'menu_id' => $this->menu_id,
-                'featured_image' => $featured_image
+                'featured_image' => $featured_image,
             ]);
 
             if ($this->translations['featured_image']) {
@@ -72,7 +71,7 @@ class PageForm extends Form
                 'meta_title' => $this->translations['meta_title'],
                 'meta_description' => $this->translations['meta_description'],
                 'meta_tags' => json_encode($this->translations['meta_tags']),
-                'featured_image' => $featured_image_trans
+                'featured_image' => $featured_image_trans,
             ]);
             $translation->language()->associate(Language::where('code', $this->language)->first());
             $translation->save();
