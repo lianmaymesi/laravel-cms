@@ -271,11 +271,6 @@ class EditPage extends BaseComponent
         $this->reset('selected_id');
     }
 
-    public function deleteLink(PageSuccessLink $pagelink)
-    {
-        $pagelink->delete();
-    }
-
     #[On('edit-page')]
     public function render()
     {
