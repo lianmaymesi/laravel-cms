@@ -1,6 +1,6 @@
 <x-lb::form wire:submit="create" x-data="{}">
     <x-lb::sidebar wire:model.live="show">
-        <x-lb::sidebar.header heading="Create Menu"></x-lb::sidebar.header>
+        <x-lb::sidebar.header heading="Create Theme"></x-lb::sidebar.header>
         <x-lb::sidebar.body>
             <div>
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">

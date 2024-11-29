@@ -13,7 +13,7 @@ class MenuForm extends Form
     public ?Menu $menu = null;
 
     public $label;
-    public $placement = ['header'];
+    public $placement = ['header', 'footer'];
     public $search_visible = 1;
     public $order;
     public $status = 'publish';

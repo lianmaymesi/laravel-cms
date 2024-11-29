@@ -9,7 +9,7 @@ use Livewire\Attributes\Computed;
 use Lianmaymesi\LaravelCms\Models\Menu;
 use Lianmaymesi\LaravelCms\Livewire\Forms\PageForm;
 
-#[Layout('components.marketing.layouts.admin')]
+#[Layout('cms::components.layouts.cms-app')]
 class CreatePage extends Component
 {
     use WithFileUploads;
@@ -28,7 +28,7 @@ class CreatePage extends Component
         $page = $this->form->create();
         if ($page) {
             $this->dispatch('notify-saved')->self();
-            $this->redirect(route('admin.cms.pages.edit', $page));
+            $this->redirect(route('cms.pages.edit', $page));
         }
     }
 
@@ -48,6 +48,6 @@ class CreatePage extends Component
 
     public function render()
     {
-        return view('livewire.marketing.c-m-s.pages.create-page');
+        return view('cms::livewire.c-m-s.pages.create-page');
     }
 }

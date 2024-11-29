@@ -2,9 +2,18 @@
     <x-slot:heading>
         <x-lb::breadcrumb :page-title="$page_title">
             <x-lb::breadcrumb.link link="/" first>Home</x-lb::breadcrumb.link>
-            <x-lb::breadcrumb.link link="/">{{ $page_title }}</x-lb::breadcrumb.link>
+            <x-lb::breadcrumb.link :link="route('cms.menus.index')">Menus</x-lb::breadcrumb.link>
+            <x-lb::breadcrumb.link>List</x-lb::breadcrumb.link>
         </x-lb::breadcrumb>
+        <x-lb::actions>
+            <x-lb::buttons-bg.primary type="button" x-data="{}"
+                x-on:click="$dispatch('create-menu', { event: 'show' })">
+                Create
+            </x-lb::buttons-bg.primary>
+        </x-lb::actions>
     </x-slot:heading>
+
+    @section('page_title', $page_title)
 
     <x-lb::table-wrapper :data-count="count($menus->links()->elements[0])" :columns="$columns" :pagination="$menus->links()" :search-bar="false" :filters-count="count($filters)"
         :columns-count="count($columns)">
@@ -24,7 +33,6 @@
                 <x-lb::table.heading></x-lb::table.heading>
                 <x-lb::table.heading>Title</x-lb::table.heading>
                 <x-lb::table.heading>Visible</x-lb::table.heading>
-                <x-lb::table.heading>Status</x-lb::table.heading>
                 <x-lb::table.heading>Link</x-lb::table.heading>
                 <x-lb::table.heading></x-lb::table.heading>
             </x-lb::table.head>
@@ -45,17 +53,24 @@
                             </span>
                         </x-lb::table.cell>
                         <x-lb::table.cell>
-                            {{ $menu->status }}
-                        </x-lb::table.cell>
-                        <x-lb::table.cell>
-                            <a href="{{ route('user.pages.dynamic.preview', $menu->detail?->slug) }}"
-                                class="text-blue-600 underline" target="_blank">
-                                Preview
-                            </a>
-                            <a href="{{ route('user.pages.dynamic.view', $menu->detail?->slug) }}"
-                                class="ml-3 text-blue-600 underline" target="_blank">
-                                Live
-                            </a>
+                            <div class="flex items-center gap-x-3 @if (!config('cms.preview_url') || !config('cms.live_url')) flex-col @endif">
+                                @if (config('cms.preview_url'))
+                                    <a href="{{ route(config('cms.preview_url'), $menu->detail?->slug) }}"
+                                        class="text-blue-600 underline" target="_blank">
+                                        Preview
+                                    </a>
+                                @else
+                                    <span class="text-xs text-red-600">Add Preview Url Route to your conifg.</span>
+                                @endif
+                                @if (config('cms.live_url'))
+                                    <a href="{{ route(config('cms.live_url'), $menu->detail?->slug) }}"
+                                        class="text-blue-600 underline" target="_blank">
+                                        Live
+                                    </a>
+                                @else
+                                    <span class="text-xs text-red-600">Add Live Url Route to your conifg.</span>
+                                @endif
+                            </div>
                         </x-lb::table.cell>
                         <x-lb::table.cell>
                             <div class="flex justify-end gap-2">
@@ -201,7 +216,7 @@
                     @endforeach
                 @empty
                     <x-lb::table.row>
-                        <x-lb::table.cell colspan="4">
+                        <x-lb::table.cell colspan="7">
                             <div class="flex justify-center w-full py-8 text-xl text-slate-500">
                                 Menu(s) Not found!
                             </div>
@@ -219,10 +234,6 @@
             </x-lb::buttons-bg.danger>
         </x-slot>
     </x-lb::modal.confirm>
-
-    <x-slot:logout>
-        Hello
-    </x-slot:logout>
 
     @livewire('create-menu-modal')
 </div>

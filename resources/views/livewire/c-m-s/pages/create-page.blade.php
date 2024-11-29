@@ -1,31 +1,39 @@
-<x-marketing.partials.app>
-    @section('heading')
+<div>
+    <x-slot:heading>
         <x-lb::breadcrumb :page-title="$page_title">
-            <x-lb::breadcrumb.link :link="route('admin.dashboard')" first>Dashboard</x-lb::breadcrumb.link>
-            <x-lb::breadcrumb.link link="/" first>Categories</x-lb::breadcrumb.link>
-            <x-lb::breadcrumb.link link="/">List</x-lb::breadcrumb.link>
+            <x-lb::breadcrumb.link link="/" first>Home</x-lb::breadcrumb.link>
+            <x-lb::breadcrumb.link :link="route('cms.pages.index')">Pages</x-lb::breadcrumb.link>
+            <x-lb::breadcrumb.link>Create</x-lb::breadcrumb.link>
         </x-lb::breadcrumb>
         <x-lb::actions>
-            <div class="flex items-center mb-2 gap-x-2">
-                @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                    <label for="{{ $localeCode }}" @class([
-                        'cursor-pointer rounded-md border px-3 py-0.5 text-sm',
-                        'bg-indigo-600 text-indigo-50' =>
-                            $form->language == null && app()->getLocale() === $localeCode,
-                        'bg-indigo-600 text-indigo-50' => $form->language === $localeCode,
-                    ])>
-                        <input type="radio" id="{{ $localeCode }}" class="hidden" wire:model.live="form.language"
-                            value="{{ $localeCode }}" @if ($form->language == null && app()->getLocale() === $localeCode) checked @endif />
-                        {{ $properties['native'] }}
-                    </label>
-                @endforeach
-            </div>
+            @if (count(LaravelLocalization::getSupportedLocales()) > 1)
+                <div class="flex items-center mb-2 gap-x-2">
+                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <label for="{{ $localeCode }}" @class([
+                            'cursor-pointer rounded-md border px-3 py-0.5 text-sm',
+                            'bg-indigo-600 text-indigo-50' =>
+                                $form->language == null && app()->getLocale() === $localeCode,
+                            'bg-indigo-600 text-indigo-50' => $form->language === $localeCode,
+                        ])>
+                            <input type="radio" id="{{ $localeCode }}" class="hidden" wire:model.live="form.language"
+                                value="{{ $localeCode }}" @if ($form->language == null && app()->getLocale() === $localeCode) checked @endif />
+                            {{ $properties['native'] }}
+                        </label>
+                    @endforeach
+                </div>
+            @endif
+            <x-lb::anchor-bg.warning :href="route('cms.pages.index')">
+                List
+            </x-lb::anchor-bg.warning>
+            <x-lb::anchor-bg.primary :href="route('cms.pages.create')">
+                Create
+            </x-lb::anchor-bg.primary>
         </x-lb::actions>
-    @endsection
+    </x-slot:heading>
 
     @section('page_title', $page_title)
 
-    <div class="relative flex flex-col px-4">
+    <div class="relative flex flex-col">
         <div class="relative">
             <x-lb::form wire:submit.prevent="create" have-image :rtl="$form->language === 'ar' ? true : false">
                 <x-lb::form.layout.flex-row>
@@ -65,22 +73,26 @@
                     </x-lb::form.layout.flex-col>
                     <x-lb::form.layout.flex-col-sticky max-width="xs" sticky>
                         <x-lb::card title="Featured Image">
-                            <x-lb::card.span-two breakpoint="lg">
-                                <label class="text-sm font-medium tracking-wide text-slate-950 block mb-1.5">
-                                    General Featured Image
-                                </label>
-                                <x-lb::form.file wire:model="form.featured_image" label="General Featured Image"
-                                    :error="$errors->first('form.featured_image')">
-                                </x-lb::form.file>
-                            </x-lb::card.span-two>
-                            <x-lb::card.span-two breakpoint="lg">
-                                <label class="text-sm font-medium tracking-wide text-slate-950 block mb-1.5">
-                                    Featured Image for Each Language
-                                </label>
-                                <x-lb::form.file wire:model="form.translations.featured_image"
-                                    label="Featured Image for Each Language" :error="$errors->first('form.translations.featured_image')">
-                                </x-lb::form.file>
-                            </x-lb::card.span-two>
+                            @if (count(LaravelLocalization::getSupportedLocales()) == 1)
+                                <x-lb::card.span-two breakpoint="lg">
+                                    <label class="text-sm font-medium tracking-wide text-slate-950 block mb-1.5">
+                                        General Featured Image
+                                    </label>
+                                    <x-lb::form.file wire:model="form.featured_image" label="General Featured Image"
+                                        :error="$errors->first('form.featured_image')">
+                                    </x-lb::form.file>
+                                </x-lb::card.span-two>
+                            @endif
+                            @if (count(LaravelLocalization::getSupportedLocales()) > 1)
+                                <x-lb::card.span-two breakpoint="lg">
+                                    <label class="text-sm font-medium tracking-wide text-slate-950 block mb-1.5">
+                                        Featured Image for Each Language
+                                    </label>
+                                    <x-lb::form.file wire:model="form.translations.featured_image"
+                                        label="Featured Image for Each Language" :error="$errors->first('form.translations.featured_image')">
+                                    </x-lb::form.file>
+                                </x-lb::card.span-two>
+                            @endif
                         </x-lb::card>
                         <x-slot:sticky-content>
                             <x-lb::card sticky>
@@ -112,4 +124,4 @@
             </x-lb::form>
         </div>
     </div>
-</x-marketing.partials.app>
+</div>

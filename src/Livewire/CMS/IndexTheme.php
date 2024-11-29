@@ -2,12 +2,12 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS;
 
-use Psy\Output\Theme;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
+use Lianmaymesi\LaravelCms\Models\Theme;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 
-#[Layout('components.marketing.layouts.admin')]
+#[Layout('cms::components.layouts.cms-app')]
 class IndexTheme extends BaseComponent
 {
     public $page_title = 'Themes List';
@@ -15,7 +15,7 @@ class IndexTheme extends BaseComponent
     #[On('theme-lists')]
     public function render()
     {
-        return view('livewire.marketing.c-m-s.index-theme', [
+        return view('cms::livewire.c-m-s.index-theme', [
             'themes' => Theme::paginate($this->perPage)
         ]);
     }

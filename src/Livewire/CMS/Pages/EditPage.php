@@ -12,7 +12,7 @@ use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 use Lianmaymesi\LaravelCms\Livewire\Forms\PageForm;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-#[Layout('components.marketing.layouts.admin')]
+#[Layout('cms::components.layouts.cms-app')]
 class EditPage extends BaseComponent
 {
     use WithFileUploads;
@@ -67,10 +67,11 @@ class EditPage extends BaseComponent
                 if (str_contains($subKey, 'model')) {
                     $transformedArray[$key][$subKey] = $subValue;
                 } elseif (str_contains($subKey, 'cta_')) {
-                    $transformedArray[$key][$subKey]['link'] = $subValue['link'][app()->getLocale()];
-                    $transformedArray[$key][$subKey]['text'] = $subValue['text'][app()->getLocale()];
+                    $transformedArray[$key][$subKey]['label'] = $subValue['label'];
+                    $transformedArray[$key][$subKey]['link'] = $subValue['value']['link'][app()->getLocale()];
+                    $transformedArray[$key][$subKey]['text'] = $subValue['value']['text'][app()->getLocale()];
                 } else {
-                    $transformedArray[$key][$subKey] = $subValue[app()->getLocale()];
+                    $transformedArray[$key][$subKey] = $subValue['value'][app()->getLocale()];
                 }
             }
         }
@@ -85,8 +86,8 @@ class EditPage extends BaseComponent
 
     public function addSection(Section $section)
     {
-        $this->page->sections()->attach($section->id, ['data' => $this->transformSkelAr(json_decode($section->skeleton->skeleton, true)['data'])]);
-        return redirect(route('admin.cms.pages.edit', $this->page->id));
+        $this->page->sections()->attach($section->id, ['data' => $this->transformSkelAr($section->skeleton->skeleton['data'])]);
+        return redirect(route('cms.pages.edit', $this->page->id));
     }
 
     public function transformSkelAr($sections)
@@ -98,20 +99,29 @@ class EditPage extends BaseComponent
             $skeleton = $section["skeleton"];
             $transformed[$id] = [];
             foreach ($skeleton as $key => $value) {
-                if (is_array($value)) {
-                    $transformed[$id] = $skeleton;
-                } else {
+                if (str_contains($key, 'cta')) {
                     $transl = [];
                     foreach (LaravelLocalization::getSupportedLanguagesKeys() as $language) {
-                        if (str_contains($value, 'cta')) {
-                            $transl['link'][$language] = 'Link';
-                            $transl['text'][$language] = 'Text';
-                        } else {
-                            $transl[$language] = $value;
-                        }
+                        $transl['label'] = $value['label'];
+                        $transl['value']['link'][$language] = '';
+                        $transl['value']['text'][$language] = '';
                     }
-                    $transformed[$id][$value] = $transl;
+                } elseif (str_contains($key, 'model')) {
+                    $transl['label'] = $value['label'];
+                    $transl['model'] = $value['model'];
+                    $transl['field'] = $value['field'];
+                    $transl['value']['type'] = 'all';
+                    $transl['value']['records'] = [];
+                    $transl['value']['limit'] = 5;
+                    $transl['value']['orderby_field'] = 'created_at';
+                    $transl['value']['orderby'] = 'asc';
+                } else {
+                    foreach (LaravelLocalization::getSupportedLanguagesKeys() as $language) {
+                        $transl['label'] = $value['label'];
+                        $transl['value'][$language] = '';
+                    }
                 }
+                $transformed[$id][$key] = $transl;
             }
         }
 
@@ -126,17 +136,17 @@ class EditPage extends BaseComponent
         $results = scandir($path);
 
         foreach ($results as $result) {
-            if ($result === '.' or $result === '..') continue;
+            if ($result === '.' or $result === '..')
 
-            // Check if it's a file
-            if (is_file($path . '/' . $result)) {
-                $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
+                // Check if it's a file
+                if (is_file($path . '/' . $result)) {
+                    $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
 
-                // Check if the model has the WIDGET constant
-                if (defined("$model::WIDGET") && $model::WIDGET) {
-                    $modelList[] = pathinfo($result, PATHINFO_FILENAME);
+                    // Check if the model has the WIDGET constant
+                    if (defined("$model::WIDGET") && $model::WIDGET) {
+                        $modelList[] = pathinfo($result, PATHINFO_FILENAME);
+                    }
                 }
-            }
         }
 
         return $modelList;
@@ -161,82 +171,96 @@ class EditPage extends BaseComponent
     {
         $datas = $this->validate([
             'sections_data' => 'array',
-            'sections_data.*.*.*' => 'required'
+            'sections_data.*.*.*.*' => 'required'
         ]);
 
-        $this->form->update();
+        $this->form->update($draft);
 
         foreach ($datas['sections_data'] as $sec_key => $sections_data) {
             foreach ($sections_data as $data_key => $data) {
                 foreach ($data as $item_key => $item) {
                     if (str_contains($item_key, 'single_image_') && is_object($datas['sections_data'][$sec_key][$data_key][$item_key])) {
-                        $datas['sections_data'][$sec_key][$data_key][$item_key] = $datas['sections_data'][$sec_key][$data_key][$item_key]->store('pages', 'web-fe');
+                        $datas['sections_data'][$sec_key][$data_key][$item_key] = $datas['sections_data'][$sec_key][$data_key][$item_key]->store('pages', config('cms.storage_driver'));
                     }
                 }
             }
         }
 
-        foreach ($datas['sections_data'] as $sec_key => $sections_data) {
+        foreach ($this->sections_data as $sec_key => $sections_data) {
+
+            $transformedData = $this->transform($sections_data, $this->original_data[$sec_key]);
+
             $this->page->sections()->wherePivot('id', $sec_key)->update([
-                'data' => $this->transform($sections_data, $this->original_data[$sec_key])
+                'data' => $transformedData,
             ]);
         }
 
-        return redirect(route('admin.cms.pages.edit', $this->page->id));
+        return redirect(route('cms.pages.edit', $this->page->id));
     }
-
-    // private function transform($array, $original_data)
-    // {
-    //     foreach ($array as $key => $value) {
-    //         if (is_array($value)) {
-    //             if (str_contains(array_keys($value)[0], 'model_')) {
-    //                 $original_data[$key] = $value;
-    //             } else {
-    //                 $original_data[$key] = $this->transform($value, $original_data[$key]);
-    //             }
-    //         } else {
-    //             if (str_contains($key, 'image')) {
-    //                 foreach (LaravelLocalization::getSupportedLanguagesKeys() as $language) {
-    //                     $original_data[$key][$language] = $value;
-    //                 }
-    //             } else {
-    //                 if (isset($original_data[$key][$this->language])) {
-    //                     $original_data[$key][$this->language] = $value;
-    //                 } else {
-    //                     $original_data[$key] = [$this->language => $value];
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     return $original_data;
-    // }
 
     private function transform($array, $original_data)
     {
         foreach ($array as $key => $value) {
+
             if (is_array($value)) {
-                if (isset($original_data[$key]) && !isset($original_data[$key][$this->language])) {
+                if (isset($original_data[$key])) {
                     $original_data[$key] = $this->transform($value, $original_data[$key]);
-                } else {
-                    $original_data[$key] = $this->transform($value, []);
                 }
-            } else {
-                if (str_contains($key, 'image')) {
-                    foreach (LaravelLocalization::getSupportedLanguagesKeys() as $language) {
-                        $original_data[$key][$language] = $value;
+            }
+
+            if (str_contains($key, 'cta_')) {
+                // Handle 'cta_' fields
+                if (isset($original_data[$key])) {
+                    // Ensure 'value' is always an array for 'cta_' keys
+                    if (!isset($original_data[$key]['value'])) {
+                        $original_data[$key]['value'] = [];
                     }
-                } elseif (str_contains($key, 'model') || str_contains($key, 'records')) {
-                    $original_data[$key] = $value;
-                } else {
-                    if (isset($original_data[$key][$this->language])) {
-                        $original_data[$key][$this->language] = $value;
-                    } else {
-                        $original_data[$key] = [$this->language => $value];
+
+                    // Handle 'link' and 'text' for 'cta_'
+                    if (isset($value['link'])) {
+                        $original_data[$key]['value']['link'][$this->language] = $value['link'];
+                    }
+                    if (isset($value['text'])) {
+                        $original_data[$key]['value']['text'][$this->language] = $value['text'];
+                    }
+
+                    // Handle 'label'
+                    if (isset($value['label'])) {
+                        $original_data[$key]['label'] = $value['label'];
                     }
                 }
             }
+
+            if (str_contains($key, 'model_')) {
+                if (isset($original_data[$key])) {
+                    // Ensure 'value' is always an array for 'model_' keys
+                    if (!isset($original_data[$key]['value'])) {
+                        $original_data[$key]['value'] = [];
+                    }
+
+                    // Loop through 'value' to update or retain existing values
+                    foreach ($value['value'] as $subKey => $subValue) {
+                        $original_data[$key]['value'][$subKey] = $subValue;
+                    }
+
+                    // Handle 'label', 'field', 'model' and other properties
+                    foreach (['label', 'field', 'model'] as $property) {
+                        if (isset($value[$property])) {
+                            $original_data[$key][$property] = $value[$property];
+                        }
+                    }
+                }
+            }
+
+            if (str_contains($key, 'text_') || str_contains($key, 'textarea_') || str_contains($key, 'markdown_')) {
+                if (isset($original_data[$key]['value'][$this->language])) {
+                    $original_data[$key]['value'][$this->language] = $value;
+                } else {
+                    $original_data[$key]['value'] = [$this->language => $value];
+                }
+            }
         }
+
 
         return $original_data;
     }
@@ -256,8 +280,6 @@ class EditPage extends BaseComponent
     #[On('edit-page')]
     public function render()
     {
-        return view('livewire.marketing.c-m-s.pages.edit-page', [
-            'links' => PageSuccessLink::where('page_id', $this->page->id)->get()
-        ]);
+        return view('cms::livewire.c-m-s.pages.edit-page');
     }
 }

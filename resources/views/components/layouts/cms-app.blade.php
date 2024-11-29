@@ -1,5 +1,10 @@
+@props(['name' => '', 'settingsUrl' => '', 'initials' => '', 'logoUrl' => ''])
 <x-cms::layouts.app>
-    <x-lb::partials.main max-width="full" name="Lian Dhas" :settings-url="route('home')" initials="LD" :logo-url="asset('dsp-logo.jpg')">
+    <x-lb::partials.main max-width="full" :name="$name" :settings-url="$settingsUrl" :initials="$initials" :logo-url="$logoUrl">
+
+        @section('page_title')
+            @yield('page_title')
+        @endsection
 
         <x-slot:heading>
             {{ $heading }}
@@ -12,8 +17,7 @@
                 <x-dynamic-component :component="config('cms.navigation.top')" />
             @endif
             <x-lb::navigate.divider>CMS</x-lb::navigate.divider>
-            <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.menus.index')" :is_active="request()->is(config('cms.route_prefix') . '/menus')" path="{{ config('cms.route_prefix') }}/menus"
-                no-navigate>
+            <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.menus.index')" :is_active="request()->is(config('cms.route_prefix') . '/menus')" no-navigate>
                 <x-slot:icon>
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 14 14">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -29,8 +33,8 @@
                             d="m960 120l832 416v1040l-832 415l-832-415V536zm625 456L960 264L719 384l621 314zM960 888l238-118l-622-314l-241 120zM256 680v816l640 320v-816zm768 1136l640-320V680l-640 320z" />
                     </svg>
                 </x-slot:icon>
-                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.pages.index')" :is_active="request()->is(config('cms.route_prefix') . '/pages')" path="{{ config('cms.route_prefix') }}/pages"
-                    no-navigate>
+                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.pages.index')" :is_active="request()->is(config('cms.route_prefix') . '/pages') ||
+                    request()->is(config('cms.route_prefix') . '/pages/*/edit')" no-navigate>
                     <x-slot:icon>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
                             <path fill="currentColor" fill-rule="evenodd"
@@ -40,8 +44,7 @@
                     </x-slot:icon>
                     Pages List
                 </x-lb::navigate.item>
-                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.pages.create')" :is_active="request()->is(config('cms.route_prefix') . '/pages/create')"
-                    path="{{ config('cms.route_prefix') }}/pages/create" no-navigate>
+                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.pages.create')" :is_active="request()->is(config('cms.route_prefix') . '/pages/create')" no-navigate>
                     <x-slot:icon>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                             <path
@@ -58,8 +61,7 @@
                             d="m960 120l832 416v1040l-832 415l-832-415V536zm625 456L960 264L719 384l621 314zM960 888l238-118l-622-314l-241 120zM256 680v816l640 320v-816zm768 1136l640-320V680l-640 320z" />
                     </svg>
                 </x-slot:icon>
-                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.themes.index')" :is_active="request()->is(config('cms.route_prefix') . '/themes')" path="{{ config('cms.route_prefix') }}/themes"
-                    no-navigate>
+                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.themes.index')" :is_active="request()->is(config('cms.route_prefix') . '/themes')" no-navigate>
                     <x-slot:icon>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
                             <path fill="currentColor" fill-rule="evenodd"
@@ -69,8 +71,7 @@
                     </x-slot:icon>
                     Themes List
                 </x-lb::navigate.item>
-                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.themes.sections.index')" :is_active="request()->is(config('cms.route_prefix') . '/themes/sections')"
-                    path="{{ config('cms.route_prefix') }}/themes/sections" no-navigate>
+                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.themes.sections.index')" :is_active="request()->is(config('cms.route_prefix') . '/themes/sections')" no-navigate>
                     <x-slot:icon>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24">
                             <path fill="currentColor" fill-rule="evenodd"
@@ -80,8 +81,7 @@
                     </x-slot:icon>
                     Sections List
                 </x-lb::navigate.item>
-                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.themes.sections.create')" :is_active="request()->is(config('cms.route_prefix') . '/themes/sections/create')"
-                    path="{{ config('cms.route_prefix') }}/themes/sections/create" no-navigate>
+                <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.themes.sections.create')" :is_active="request()->is(config('cms.route_prefix') . '/themes/sections/create')" no-navigate>
                     <x-slot:icon>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                             <path
@@ -99,7 +99,7 @@
         </x-slot>
 
         <x-slot:logout>
-            {{ $logout }}
+            <x-dynamic-component :component="config('cms.navigation.logout')" />
         </x-slot>
 
         {{ $slot }}

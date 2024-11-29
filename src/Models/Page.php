@@ -52,7 +52,7 @@ class Page extends Model
     public function imageUrl()
     {
         return $this->featured_image
-            ? Storage::disk('web-fe')->url($this->featured_image)
+            ? Storage::disk(config('cms.storage_driver'))->url($this->featured_image)
             : url('images/placeholder.jpg');
     }
 }

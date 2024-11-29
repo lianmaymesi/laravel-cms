@@ -2,11 +2,16 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Themes;
 
-use Psy\Output\Theme;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Computed;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
+use Lianmaymesi\LaravelCms\Models\Theme;
+use Lianmaymesi\LaravelCms\Models\Section;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 
-#[Layout('components.marketing.layouts.admin')]
+#[Layout('cms::components.layouts.cms-app')]
 class CreateSection extends BaseComponent
 {
     public $page_title = 'Create Section';
@@ -27,6 +32,7 @@ class CreateSection extends BaseComponent
     public $config = [];
     public $bladeFiles = [];
     public $section_file;
+    public $allFields = [];
 
     public function addColumn()
     {
@@ -148,7 +154,7 @@ class CreateSection extends BaseComponent
 
     public function updatedThemeId($theme)
     {
-        $directory = resource_path('views/components/user/themes/' . Theme::where('id', $theme)->first()->slug);
+        $directory = resource_path('views/components/themes/' . Theme::where('id', $theme)->first()->slug);
 
         $this->bladeFiles = collect(File::files($directory))
             ->filter(function ($file) {
@@ -177,15 +183,17 @@ class CreateSection extends BaseComponent
                 'section_file' => $data['section_file']
             ]);
 
+            // dd($this->config);
+
             $section->skeleton()->create([
-                'skeleton' => json_encode(array_merge(
+                'skeleton' => array_merge(
                     [
                         'data' => $this->mergeModelData($data['subSection'], $this->config)
                     ],
                     [
                         'settings' => $data['settings']
                     ]
-                ))
+                )
             ]);
         });
 
@@ -222,8 +230,16 @@ class CreateSection extends BaseComponent
         return $modelList;
     }
 
+    public function changeModel($value, $sectionId, $key)
+    {
+        $table = "\App\\Models\\" . $value;
+        $model = new $table();
+        $tableName = $model->getTable();
+        $this->allFields[$sectionId][$key] = Schema::getColumnListing($tableName);
+    }
+
     public function render()
     {
-        return view('livewire.marketing.c-m-s.themes.create-section');
+        return view('cms::livewire.c-m-s.themes.create-section');
     }
 }

@@ -40,6 +40,6 @@ class CreateThemeModal extends Component
 
     public function render()
     {
-        return view('livewire.marketing.c-m-s.modal.create-theme-modal');
+        return view('cms::livewire.c-m-s.modal.create-theme-modal');
     }
 }

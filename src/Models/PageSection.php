@@ -3,9 +3,8 @@
 namespace Lianmaymesi\LaravelCms\Models;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Casts\Json;
+use Lianmaymesi\LaravelCms\Models\Casts\Json;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PageSection extends Pivot
 {
@@ -21,6 +20,6 @@ class PageSection extends Pivot
 
     public function imageUrl($image)
     {
-        return Storage::disk('web-fe')->url($image);
+        return Storage::disk(config('cms.storage_driver'))->url($image);
     }
 }

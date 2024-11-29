@@ -2,8 +2,14 @@
     <x-slot:heading>
         <x-lb::breadcrumb :page-title="$page_title">
             <x-lb::breadcrumb.link link="/" first>Home</x-lb::breadcrumb.link>
-            <x-lb::breadcrumb.link link="/">{{ $page_title }}</x-lb::breadcrumb.link>
+            <x-lb::breadcrumb.link :link="route('cms.pages.index')">Pages</x-lb::breadcrumb.link>
+            <x-lb::breadcrumb.link>List</x-lb::breadcrumb.link>
         </x-lb::breadcrumb>
+        <x-lb::actions>
+            <x-lb::anchor-bg.primary :href="route('cms.pages.create')">
+                Create
+            </x-lb::anchor-bg.primary>
+        </x-lb::actions>
     </x-slot:heading>
 
     @section('page_title', $page_title)
@@ -39,7 +45,7 @@
                         </x-lb::table.cell>
                         <x-lb::table.cell>
                             <div class="flex justify-end gap-2">
-                                <x-lb::anchor.primary :href="route('admin.cms.pages.edit', $page->id)">
+                                <x-lb::anchor.primary :href="route('cms.pages.edit', $page->id)" no-navigate>
                                     Edit
                                 </x-lb::anchor.primary>
                                 <x-lb::buttons.danger wire:click="trig('delete', {{ $page->id }})"

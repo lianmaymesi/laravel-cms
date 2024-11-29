@@ -1,43 +1,20 @@
-<x-marketing.partials.app>
-    @section('heading')
-        <div class="py-4">
-            <ul class="flex items-center space-x-2 text-sm font-medium text-slate-500">
-                <li class="text-slate-800">
-                    <a href="{{ route('admin.dashboard') }}" class="duration-150 hover:text-slate-600" wire:navigate>
-                        Home
-                    </a>
-                </li>
-                <li class="flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-3 h-3">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
-                    <a href="" class="duration-150 hover:text-slate-600" wire:navigate>
-                        Sections
-                    </a>
-                </li>
-                <li class="flex items-center space-x-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-3 h-3">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
-                    <a class="duration-150 hover:text-slate-600">Create</a>
-                </li>
-            </ul>
-            <h1 class="text-3xl font-semibold text-slate-900">
-                {{ $page_title }}
-            </h1>
-        </div>
-        <div class="pb-6">
-            <x-lb::anchor-bg.primary :href="route('admin.cms.themes.sections.index')">
+<div>
+    <x-slot:heading>
+        <x-lb::breadcrumb :page-title="$page_title">
+            <x-lb::breadcrumb.link link="/" first>Home</x-lb::breadcrumb.link>
+            <x-lb::breadcrumb.link :link="route('cms.themes.sections.index')">Sections</x-lb::breadcrumb.link>
+            <x-lb::breadcrumb.link>Create</x-lb::breadcrumb.link>
+        </x-lb::breadcrumb>
+        <x-lb::actions>
+            <x-lb::anchor-bg.warning href="{{ route('cms.themes.sections.index') }}" no-navigate>
                 List
-            </x-lb::anchor-bg.primary>
-        </div>
-    @endsection
+            </x-lb::anchor-bg.warning>
+        </x-lb::actions>
+    </x-slot:heading>
 
     @section('page_title', $page_title)
 
-    <div class="relative flex flex-col px-4">
+    <div class="relative flex flex-col">
         <div
             class="flex items-center p-2 mb-2 text-sm text-red-600 border border-red-200 rounded-lg bg-red-50 gap-x-2 z-[99999999]">
             <span>
@@ -80,7 +57,7 @@
                         </x-lb::card>
                         <x-lb::card title="Section Structure">
                             <x-lb::card.span-two>
-                                <div class="relative p-4 border bg-slate-100 rounded-xl">
+                                <div class="relative p-4 border bg-slate-100 rounded-xl hidden">
                                     <h2 class="mb-2 text-lg font-semibold">
                                         Screen Settings <span
                                             class="text-xs italic font-normal select-none text-slate-700">
@@ -171,11 +148,16 @@
                                                                 <li wire:key="task-{{ $value }}"
                                                                     wire:sortable-group.item="{{ $value }}"
                                                                     class="flex items-center justify-between py-2 pl-4 pr-2 text-sm border border-indigo-400 border-dashed rounded-lg">
-                                                                    <span>{{ $value }}</span>
+                                                                    <span>
+                                                                        <x-lb::form.input type="text"
+                                                                            :label="$value"
+                                                                            wire:model="config.{{ $section['id'] . '.' . $value . '.label' }}"
+                                                                            label-off></x-lb::form.input>
+                                                                    </span>
                                                                     <div class="flex flex-col gap-2">
-                                                                        <select
-                                                                            class="pl-0.5 py-0.5 text-xs rounded-sm"
-                                                                            wire:model="config.{{ $section['id'] . '.' . $value . '.model' }}">
+                                                                        <select class="pl-0.5 py-0.5 text-xs rounded-sm"
+                                                                            wire:model="config.{{ $section['id'] . '.' . $value . '.model' }}"
+                                                                            wire:change="changeModel($event.target.value, `{{ $section['id'] }}`, `{{ $value }}`)">
                                                                             <option value="">
                                                                                 Select the Model
                                                                             </option>
@@ -184,9 +166,17 @@
                                                                                     {{ $model }}</option>
                                                                             @endforeach
                                                                         </select>
-                                                                        <input type="number"
-                                                                            class="pl-0.5 py-0.5 text-xs rounded-sm w-16"
-                                                                            wire:model="config.{{ $section['id'] . '.' . $value . '.records' }}" />
+                                                                        <select class="pl-0.5 py-0.5 text-xs rounded-sm"
+                                                                            wire:model="config.{{ $section['id'] . '.' . $value . '.field' }}">
+                                                                            <option>Select the Display Field</option>
+                                                                            @isset($allFields[$section['id']][$value])
+                                                                                @foreach ($allFields[$section['id']][$value] as $key => $value)
+                                                                                    <option value="{{ $value }}">
+                                                                                        {{ $value }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            @endisset
+                                                                        </select>
                                                                     </div>
                                                                     <div class="flex items-center gap-x-2">
                                                                         <span
@@ -194,8 +184,8 @@
                                                                             wire:sortable-group.handle>
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                 fill="none" viewBox="0 0 24 24"
-                                                                                stroke-width="1.5"
-                                                                                stroke="currentColor" class="size-4">
+                                                                                stroke-width="1.5" stroke="currentColor"
+                                                                                class="size-4">
                                                                                 <path stroke-linecap="round"
                                                                                     stroke-linejoin="round"
                                                                                     d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
@@ -218,7 +208,12 @@
                                                                 <li wire:key="task-{{ $value }}"
                                                                     wire:sortable-group.item="{{ $value }}"
                                                                     class="flex items-center justify-between py-2 pl-4 pr-2 text-sm border border-indigo-400 border-dashed rounded-lg">
-                                                                    <span>{{ $value }}</span>
+                                                                    <span>
+                                                                        <x-lb::form.input type="text"
+                                                                            :label="$value"
+                                                                            wire:model="config.{{ $section['id'] . '.' . $value . '.label' }}"
+                                                                            label-off></x-lb::form.input>
+                                                                    </span>
                                                                     <div class="flex items-center gap-x-2">
                                                                         <span
                                                                             class="p-1 bg-orange-400 rounded cursor-pointer"
@@ -252,6 +247,11 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                @else
+                                    <div
+                                        class="mb-4 p-4 bg-slate-100 rounded-lg border border-dashed border-slate-300 flex justify-center text-slate-800">
+                                        No Structure has been added yet!
+                                    </div>
                                 @endif
                                 <div class="grid w-full grid-cols-1">
                                     <button type="button" @click="$wire.addColumn"
@@ -272,13 +272,17 @@
                             </x-lb::card.span-two>
                         </x-lb::card>
                         <x-lb::card>
-                            <button type="submit" class="px-4 py-1 text-green-900 bg-green-400">
-                                Save
-                            </button>
+                            <x-lb::card.span-two>
+                                <div class="flex justify-end">
+                                    <x-lb::buttons-bg.primary type="submit" wire:target="create">
+                                        Save
+                                    </x-lb::buttons-bg.primary>
+                                </div>
+                            </x-lb::card.span-two>
                         </x-lb::card>
                     </x-lb::form.layout.flex-col>
                 </x-lb::form.layout.flex-row>
             </x-lb::form>
         </div>
     </div>
-</x-marketing.partials.app>
+</div>

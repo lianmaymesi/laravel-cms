@@ -3,7 +3,7 @@
 namespace Lianmaymesi\LaravelCms\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Json;
+use Lianmaymesi\LaravelCms\Models\Casts\Json;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SectionSkeleton extends Model

@@ -3,20 +3,23 @@
         <x-lb::sidebar.header heading="Create Menu"></x-lb::sidebar.header>
         <x-lb::sidebar.body>
             <div>
-                <div class="flex items-center mb-2 gap-x-2">
-                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        <label for="{{ $localeCode }}" @class([
-                            'cursor-pointer rounded-md border px-3 py-0.5 text-sm',
-                            'bg-indigo-600 text-indigo-50' =>
-                                $form->language == null && app()->getLocale() === $localeCode,
-                            'bg-indigo-600 text-indigo-50' => $form->language === $localeCode,
-                        ])>
-                            <input type="radio" id="{{ $localeCode }}" class="hidden" wire:model.live="form.language"
-                                value="{{ $localeCode }}" @if ($form->language == null && app()->getLocale() === $localeCode) checked @endif />
-                            {{ $properties['native'] }}
-                        </label>
-                    @endforeach
-                </div>
+                @if (count(LaravelLocalization::getSupportedLocales()) > 1)
+                    <div class="flex items-center mb-2 gap-x-2">
+                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <label for="{{ $localeCode }}" @class([
+                                'cursor-pointer rounded-md border px-3 py-0.5 text-sm',
+                                'bg-indigo-600 text-indigo-50' =>
+                                    $form->language == null && app()->getLocale() === $localeCode,
+                                'bg-indigo-600 text-indigo-50' => $form->language === $localeCode,
+                            ])>
+                                <input type="radio" id="{{ $localeCode }}" class="hidden"
+                                    wire:model.live="form.language" value="{{ $localeCode }}"
+                                    @if ($form->language == null && app()->getLocale() === $localeCode) checked @endif />
+                                {{ $properties['native'] }}
+                            </label>
+                        @endforeach
+                    </div>
+                @endif
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
                     <div class="col-span-2">
                         <x-lb::form.select label="Parent Menu" wire:model="form.parent_id" :error="$errors->first('form.parent_id')">

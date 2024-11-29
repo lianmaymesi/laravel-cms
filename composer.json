@@ -17,12 +17,14 @@
     ],
     "require": {
         "php": "^8.2",
+        "cviebrock/eloquent-sluggable": "^11.0",
         "illuminate/contracts": "^10.0||^11.0",
         "lianmaymesi/laravel-backend": "^1.0",
         "livewire/livewire": "^3.5",
         "mcamara/laravel-localization": "*",
         "oddvalue/laravel-drafts": "^2.0",
         "spatie/laravel-package-tools": "^1.16",
+        "spatie/laravel-permission": "^6.10",
         "spatie/laravel-translatable": "^6.8"
     },
     "require-dev": {
