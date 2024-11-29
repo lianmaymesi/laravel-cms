@@ -2,14 +2,14 @@
 
 namespace Lianmaymesi\LaravelCms\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Lianmaymesi\LaravelCms\Models\Casts\Json;
-use Oddvalue\LaravelDrafts\Concerns\HasDrafts;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Lianmaymesi\LaravelCms\Models\Traits\Orderable;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Lianmaymesi\LaravelCms\Models\Casts\Json;
+use Lianmaymesi\LaravelCms\Models\Traits\Orderable;
+use Oddvalue\LaravelDrafts\Concerns\HasDrafts;
 
 class Menu extends Model
 {

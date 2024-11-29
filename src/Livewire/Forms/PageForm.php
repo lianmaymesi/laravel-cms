@@ -2,13 +2,13 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\Forms;
 
-use Livewire\Form;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
+use Lianmaymesi\LaravelCms\Models\Language;
 use Lianmaymesi\LaravelCms\Models\Menu;
 use Lianmaymesi\LaravelCms\Models\Page;
-use Lianmaymesi\LaravelCms\Models\Language;
+use Livewire\Form;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class PageForm extends Form
@@ -16,12 +16,19 @@ class PageForm extends Form
     public ?Page $page = null;
 
     public $menu_id;
+
     public $featured_image;
+
     public $head_scripts;
+
     public $footer_scripts;
+
     public $page_featured_image;
+
     public $featured_image_preview;
+
     public $featured_image_trans;
+
     public $featured_image_trans_preview;
 
     public $language;
@@ -31,7 +38,7 @@ class PageForm extends Form
         'meta_title' => '',
         'meta_description' => '',
         'meta_tags' => [],
-        'featured_image' => ''
+        'featured_image' => '',
     ];
 
     public function create()
@@ -45,7 +52,7 @@ class PageForm extends Form
             'translations.*' => 'required',
             'translations.featured_image' => ['nullable', 'image', Rule::requiredIf(function () {
                 return count(LaravelLocalization::getSupportedLocales()) > 1;
-            })]
+            })],
         ]);
 
         return DB::transaction(function () {
@@ -88,7 +95,7 @@ class PageForm extends Form
             'translations.*' => 'required',
             'translations.featured_image' => ['nullable', 'image'],
             'head_scripts' => 'nullable|string',
-            'footer_scripts' => 'nullable|string'
+            'footer_scripts' => 'nullable|string',
         ]);
 
         $menu = Menu::withDrafts()->where('id', $this->page->menu_id)->first();

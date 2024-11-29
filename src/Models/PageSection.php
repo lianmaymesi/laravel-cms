@@ -2,9 +2,9 @@
 
 namespace Lianmaymesi\LaravelCms\Models;
 
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Facades\Storage;
 use Lianmaymesi\LaravelCms\Models\Casts\Json;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class PageSection extends Pivot
 {

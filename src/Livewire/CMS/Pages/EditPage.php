@@ -90,6 +90,7 @@ class EditPage extends BaseComponent
     public function addSection(Section $section)
     {
         $this->page->sections()->attach($section->id, ['data' => $this->transformSkelAr($section->skeleton->skeleton['data'])]);
+
         return redirect(route('cms.pages.edit', $this->page->id));
     }
 
@@ -135,17 +136,18 @@ class EditPage extends BaseComponent
     public function allmodels()
     {
         $modelList = [];
-        $path = app_path() . '/Models';
+        $path = app_path().'/Models';
         $results = scandir($path);
 
         foreach ($results as $result) {
-            if ($result === '.' or $result === '..')
-                if (is_file($path . '/' . $result)) {
-                    $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
+            if ($result === '.' or $result === '..') {
+                if (is_file($path.'/'.$result)) {
+                    $model = "\App\\Models\\".pathinfo($result, PATHINFO_FILENAME);
                     if (defined("$model::WIDGET") && $model::WIDGET) {
                         $modelList[] = pathinfo($result, PATHINFO_FILENAME);
                     }
                 }
+            }
         }
 
         return $modelList;
@@ -170,7 +172,7 @@ class EditPage extends BaseComponent
     {
         $datas = $this->validate([
             'sections_data' => 'array',
-            'sections_data.*.*.*.*' => 'required'
+            'sections_data.*.*.*.*' => 'required',
         ]);
 
         $this->form->update($draft);
@@ -211,7 +213,7 @@ class EditPage extends BaseComponent
                 // Handle 'cta_' fields
                 if (isset($original_data[$key])) {
                     // Ensure 'value' is always an array for 'cta_' keys
-                    if (!isset($original_data[$key]['value'])) {
+                    if (! isset($original_data[$key]['value'])) {
                         $original_data[$key]['value'] = [];
                     }
 
@@ -233,7 +235,7 @@ class EditPage extends BaseComponent
             if (str_contains($key, 'model_')) {
                 if (isset($original_data[$key])) {
                     // Ensure 'value' is always an array for 'model_' keys
-                    if (!isset($original_data[$key]['value'])) {
+                    if (! isset($original_data[$key]['value'])) {
                         $original_data[$key]['value'] = [];
                     }
 
@@ -259,7 +261,6 @@ class EditPage extends BaseComponent
                 }
             }
         }
-
 
         return $original_data;
     }

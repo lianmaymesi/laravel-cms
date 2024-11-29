@@ -2,14 +2,14 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Themes;
 
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
-use Lianmaymesi\LaravelCms\Models\Theme;
-use Lianmaymesi\LaravelCms\Models\Section;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
+use Lianmaymesi\LaravelCms\Models\Section;
+use Lianmaymesi\LaravelCms\Models\Theme;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
 
 #[Layout('cms::components.layouts.cms-app')]
 class CreateSection extends BaseComponent
@@ -39,6 +39,7 @@ class CreateSection extends BaseComponent
     public $bladeFiles = [];
 
     public $section_file;
+
     public $allFields = [];
 
     public function addColumn()
@@ -95,7 +96,7 @@ class CreateSection extends BaseComponent
                 $valuesCount[$baseItem]++;
             }
 
-            return $baseItem . '_' . $valuesCount[$baseItem];
+            return $baseItem.'_'.$valuesCount[$baseItem];
         }, $this->subSection[$key]['skeleton']);
     }
 
@@ -164,7 +165,7 @@ class CreateSection extends BaseComponent
 
     public function updatedThemeId($theme)
     {
-        $directory = resource_path('views/components/themes/' . Theme::where('id', $theme)->first()->slug);
+        $directory = resource_path('views/components/themes/'.Theme::where('id', $theme)->first()->slug);
 
         $this->bladeFiles = collect(File::files($directory))
             ->filter(function ($file) {
@@ -203,7 +204,7 @@ class CreateSection extends BaseComponent
                     [
                         'settings' => $data['settings'],
                     ]
-                )
+                ),
             ]);
         });
 
@@ -220,7 +221,7 @@ class CreateSection extends BaseComponent
     public function allmodels()
     {
         $modelList = [];
-        $path = app_path() . '/Models';
+        $path = app_path().'/Models';
         $results = scandir($path);
 
         foreach ($results as $result) {
@@ -229,8 +230,8 @@ class CreateSection extends BaseComponent
             }
 
             // Check if it's a file
-            if (is_file($path . '/' . $result)) {
-                $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
+            if (is_file($path.'/'.$result)) {
+                $model = "\App\\Models\\".pathinfo($result, PATHINFO_FILENAME);
 
                 // Check if the model has the WIDGET constant
                 if (defined("$model::WIDGET") && $model::WIDGET) {
@@ -244,8 +245,8 @@ class CreateSection extends BaseComponent
 
     public function changeModel($value, $sectionId, $key)
     {
-        $table = "\App\\Models\\" . $value;
-        $model = new $table();
+        $table = "\App\\Models\\".$value;
+        $model = new $table;
         $tableName = $model->getTable();
         $this->allFields[$sectionId][$key] = Schema::getColumnListing($tableName);
     }

@@ -2,28 +2,38 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\Forms;
 
-use Livewire\Form;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
-use Lianmaymesi\LaravelCms\Models\Menu;
+use Illuminate\Support\Facades\DB;
 use Lianmaymesi\LaravelCms\Models\Language;
+use Lianmaymesi\LaravelCms\Models\Menu;
+use Livewire\Form;
 
 class MenuForm extends Form
 {
     public ?Menu $menu = null;
 
     public $label;
+
     public $placement = ['header', 'footer'];
+
     public $search_visible = 1;
 
     public $order;
+
     public $status = 'publish';
+
     public $parent_id;
+
     public $have_page = false;
+
     public $route;
+
     public $is_toplevel = 1;
+
     public $is_published = true;
+
     public $language;
+
     public $translations = [
         'title' => '',
     ];
