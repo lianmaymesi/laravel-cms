@@ -22,6 +22,12 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
+        if (app()->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../public/vendor/laravel-cms' => public_path('vendor/laravel-cms'),
+            ], ['cms-assets']);
+        }
+
         /*
          * This class is a Package Service Provider
          *
@@ -32,7 +38,6 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews('cms')
             ->hasRoute('web')
-            ->hasAssets()
             ->hasMigration('create_cms_table')
             ->hasCommand(LaravelCmsSeederCommand::class)
             ->hasInstallCommand(function (InstallCommand $command) {
@@ -40,7 +45,6 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
                     ->startWith(function (InstallCommand $command) {
                         $command->info('Folks! Thank you for trying my package.');
                     })
-                    ->publishAssets()
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
