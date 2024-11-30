@@ -3,7 +3,6 @@
 namespace Lianmaymesi\LaravelCms;
 
 use Lianmaymesi\LaravelCms\Commands\LaravelCmsSeederCommand;
-use Lianmaymesi\LaravelCms\Database\Seeders\CmsSeeder;
 use Lianmaymesi\LaravelCms\Livewire\CMS\IndexMenu;
 use Lianmaymesi\LaravelCms\Livewire\CMS\IndexTheme;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Modal\CreateMenuModal;
@@ -64,6 +63,6 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
         Livewire::component('create-menu-modal', CreateMenuModal::class);
         Livewire::component('create-theme-modal', CreateThemeModal::class);
 
-        include realpath(__DIR__ . '/../Database/Seeders/CmsSeeder.php');
+        include realpath(__DIR__.'/../Database/Seeders/CmsSeeder.php');
     }
 }
