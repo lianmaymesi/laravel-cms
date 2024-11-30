@@ -101,7 +101,7 @@ class CreateSection extends BaseComponent
                 $valuesCount[$baseItem]++;
             }
 
-            return $baseItem . '_' . $valuesCount[$baseItem];
+            return $baseItem.'_'.$valuesCount[$baseItem];
         }, $this->subSection[$key]['skeleton']);
     }
 
@@ -170,7 +170,7 @@ class CreateSection extends BaseComponent
 
     public function updatedThemeId($theme)
     {
-        $directory = resource_path('views/components/themes/' . Theme::where('id', $theme)->first()->slug);
+        $directory = resource_path('views/components/themes/'.Theme::where('id', $theme)->first()->slug);
 
         $themeFiles = collect(File::files($directory))
             ->filter(function ($file) {
@@ -209,7 +209,7 @@ class CreateSection extends BaseComponent
                 'title' => $data['title'],
                 'theme_id' => $data['theme_id'],
                 'section_file' => $data['section_file'],
-                'image' => $image
+                'image' => $image,
             ]);
 
             // dd($this->config);
@@ -239,7 +239,7 @@ class CreateSection extends BaseComponent
     public function allmodels()
     {
         $modelList = [];
-        $path = app_path() . '/Models';
+        $path = app_path().'/Models';
         $results = scandir($path);
 
         foreach ($results as $result) {
@@ -248,8 +248,8 @@ class CreateSection extends BaseComponent
             }
 
             // Check if it's a file
-            if (is_file($path . '/' . $result)) {
-                $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
+            if (is_file($path.'/'.$result)) {
+                $model = "\App\\Models\\".pathinfo($result, PATHINFO_FILENAME);
 
                 // Check if the model has the WIDGET constant
                 if (defined("$model::WIDGET") && $model::WIDGET) {
@@ -263,7 +263,7 @@ class CreateSection extends BaseComponent
 
     public function changeModel($value, $sectionId, $key)
     {
-        $table = "\App\\Models\\" . $value;
+        $table = "\App\\Models\\".$value;
         $model = new $table;
         $tableName = $model->getTable();
         $this->allFields[$sectionId][$key] = Schema::getColumnListing($tableName);

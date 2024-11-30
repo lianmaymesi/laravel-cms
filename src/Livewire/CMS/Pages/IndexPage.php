@@ -22,6 +22,7 @@ class IndexPage extends BaseComponent
     public function render()
     {
         $this->can('index page');
+
         return view('cms::livewire.c-m-s.pages.index-page', [
             'pages' => Page::with(['menu' => function ($query) {
                 return $query->withDrafts(true);

@@ -2,12 +2,11 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Modal;
 
-use Livewire\Component;
-use Livewire\Attributes\On;
-use Livewire\Attributes\Computed;
-use Lianmaymesi\LaravelCms\Models\Menu;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 use Lianmaymesi\LaravelCms\Livewire\Forms\MenuForm;
+use Lianmaymesi\LaravelCms\Models\Menu;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 
 class CreateMenuModal extends BaseComponent
 {

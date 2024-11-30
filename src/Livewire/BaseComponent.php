@@ -55,7 +55,7 @@ abstract class BaseComponent extends Component
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             throw UnauthorizedException::notLoggedIn();
         }
 
@@ -63,7 +63,7 @@ abstract class BaseComponent extends Component
             ? $roleOrPermission
             : explode('|', $roleOrPermission);
 
-        if (!$user->hasAnyRole($rolesOrPermissions) && !$user->hasAnyPermission($rolesOrPermissions)) {
+        if (! $user->hasAnyRole($rolesOrPermissions) && ! $user->hasAnyPermission($rolesOrPermissions)) {
             throw UnauthorizedException::forRolesOrPermissions($rolesOrPermissions);
         }
     }
@@ -76,7 +76,7 @@ abstract class BaseComponent extends Component
     public function updatedSelectAllRow($value)
     {
         $this->selectedRow = $value
-            ? $this->thisPageQuery->pluck('id')->map(fn($id) => (string) $id)
+            ? $this->thisPageQuery->pluck('id')->map(fn ($id) => (string) $id)
             : [];
     }
 

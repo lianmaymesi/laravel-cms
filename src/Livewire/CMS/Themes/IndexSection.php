@@ -14,6 +14,7 @@ class IndexSection extends BaseComponent
     public function render()
     {
         $this->can('index section');
+
         return view('cms::livewire.c-m-s.themes.index-section', [
             'sections' => Section::paginate($this->perPage),
         ]);

@@ -2,24 +2,22 @@
 
 namespace Lianmaymesi\LaravelCms;
 
-use Livewire\Livewire;
-use Spatie\LaravelPackageTools\Package;
-use Workbench\Database\Seeders\DatabaseSeeder;
-use Lianmaymesi\LaravelCms\Livewire\CMS\IndexMenu;
-use Lianmaymesi\LaravelCms\Livewire\CMS\IndexTheme;
-use Lianmaymesi\LaravelCms\Commands\LaravelCmsCommand;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\EditPage;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\IndexPage;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\CreatePage;
 use Lianmaymesi\LaravelCms\Commands\LaravelCmsSeederCommand;
 use Lianmaymesi\LaravelCms\Database\Seeders\CmsSeeder;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\IndexSection;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\CreateSection;
+use Lianmaymesi\LaravelCms\Livewire\CMS\IndexMenu;
+use Lianmaymesi\LaravelCms\Livewire\CMS\IndexTheme;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Modal\CreateMenuModal;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Skeleton\ViewSkeleton;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Modal\CreateThemeModal;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\CreatePage;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\EditPage;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\IndexPage;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Skeleton\ViewSkeleton;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\CreateSection;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\IndexSection;
+use Livewire\Livewire;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelCmsServiceProvider extends PackageServiceProvider
 {
@@ -67,6 +65,6 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
         Livewire::component('create-theme-modal', CreateThemeModal::class);
 
         // $this->loadSeeders([CmsSeeder::class]);
-        include __DIR__ . '/../Database/Seeders/CmsSeeder.php';
+        include __DIR__.'/../Database/Seeders/CmsSeeder.php';
     }
 }

@@ -136,13 +136,13 @@ class EditPage extends BaseComponent
     public function allmodels()
     {
         $modelList = [];
-        $path = app_path() . '/Models';
+        $path = app_path().'/Models';
         $results = scandir($path);
 
         foreach ($results as $result) {
             if ($result === '.' or $result === '..') {
-                if (is_file($path . '/' . $result)) {
-                    $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
+                if (is_file($path.'/'.$result)) {
+                    $model = "\App\\Models\\".pathinfo($result, PATHINFO_FILENAME);
                     if (defined("$model::WIDGET") && $model::WIDGET) {
                         $modelList[] = pathinfo($result, PATHINFO_FILENAME);
                     }
@@ -244,7 +244,7 @@ class EditPage extends BaseComponent
             }
 
             if (str_contains($key, 'single_image_')) {
-                $original_data[$key]['value'][$this->language] = $value->store('pages', config('cms.storage_driver'));;
+                $original_data[$key]['value'][$this->language] = $value->store('pages', config('cms.storage_driver'));
             }
 
             if (str_contains($key, 'text_') || str_contains($key, 'textarea_') || str_contains($key, 'markdown_')) {
@@ -270,6 +270,7 @@ class EditPage extends BaseComponent
     public function render()
     {
         $this->can('edit page');
+
         return view('cms::livewire.c-m-s.pages.edit-page');
     }
 }

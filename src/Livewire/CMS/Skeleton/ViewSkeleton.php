@@ -2,7 +2,6 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Skeleton;
 
-use Livewire\Component;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 use Lianmaymesi\LaravelCms\Models\SectionSkeleton;
 

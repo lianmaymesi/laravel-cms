@@ -3,10 +3,9 @@
 namespace Lianmaymesi\LaravelCms\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class CmsSeeder extends Seeder
 {
@@ -36,25 +35,25 @@ class CmsSeeder extends Seeder
             'index theme',
         ];
 
-        if (!$role = Role::where('name', 'Super Admin')->first()) {
+        if (! $role = Role::where('name', 'Super Admin')->first()) {
             $role = Role::create(['name' => 'Super Admin']);
         }
 
         foreach ($permissions as $permission) {
-            if (!Permission::where('name', $permission)->first()) {
+            if (! Permission::where('name', $permission)->first()) {
                 Permission::create([
-                    'name' => $permission
+                    'name' => $permission,
                 ]);
                 $role->givePermissionTo($permission);
             }
         }
 
-        if (!\App\Models\User::where('email', config('cms.super_admin_email'))->first()) {
+        if (! \App\Models\User::where('email', config('cms.super_admin_email'))->first()) {
             $user = \App\Models\User::create([
                 'name' => 'Super Admin',
                 'email' => config('cms.super_admin_email'),
                 'password' => Hash::make('Secret@143'),
-                'email_verified_at' => now()
+                'email_verified_at' => now(),
             ]);
 
             $user->assignRole('Super Admin');

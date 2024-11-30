@@ -16,6 +16,7 @@ class IndexTheme extends BaseComponent
     public function render()
     {
         $this->can('index theme');
+
         return view('cms::livewire.c-m-s.index-theme', [
             'themes' => Theme::paginate($this->perPage),
         ]);

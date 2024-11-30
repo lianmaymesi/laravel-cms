@@ -33,7 +33,7 @@ class IndexMenu extends BaseComponent
     {
         return Menu::with('children')
             ->withDrafts(true)
-            ->when($this->placement, fn($query, $value) => $query->where('placement', $this->placement))
+            ->when($this->placement, fn ($query, $value) => $query->where('placement', $this->placement))
             ->whereNull('parent_id')
             ->orderBy('order', 'asc')
             ->paginate($this->perPage);
@@ -68,6 +68,7 @@ class IndexMenu extends BaseComponent
     public function render()
     {
         $this->can('index menu');
+
         return view('cms::livewire.c-m-s.index-menu', [
             'menus' => $this->placement_query,
         ]);
