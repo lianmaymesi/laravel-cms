@@ -32,6 +32,7 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews('cms')
             ->hasRoute('web')
+            ->hasAssets()
             ->hasMigration('create_cms_table')
             ->hasCommand(LaravelCmsSeederCommand::class)
             ->hasInstallCommand(function (InstallCommand $command) {
@@ -39,6 +40,7 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
                     ->startWith(function (InstallCommand $command) {
                         $command->info('Folks! Thank you for trying my package.');
                     })
+                    ->publishAssets()
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
