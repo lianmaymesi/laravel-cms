@@ -4,7 +4,6 @@ namespace Lianmaymesi\LaravelCms\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use Lianmaymesi\LaravelCms\Database\Seeders\CmsSeeder;
 
 class LaravelCmsSeederCommand extends Command
 {
