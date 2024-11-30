@@ -24,7 +24,7 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
     {
         if (app()->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../public/vendor/laravel-cms' => public_path('vendor/laravel-cms'),
+                __DIR__.'/../public/vendor/laravel-cms' => public_path('vendor/laravel-cms'),
             ], ['cms-assets']);
         }
 
