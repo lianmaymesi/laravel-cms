@@ -3,6 +3,7 @@
 // config for Lianmaymesi/LaravelCms
 return [
     'header' => env('LARAVEL_CMS_HEADER_SCRIPTS', 'header-scripts'),
+    'footer' => env('LARAVEL_CMS_FOOTER_SCRIPTS', 'footer-scripts'),
     'route_prefix' => env('LARAVEL_CMS_ROUTE_PREFIX', 'cms'),
     'navigation' => [
         'top' => env('LARAVEL_CMS_NAV_TOP', 'navigation-top'),

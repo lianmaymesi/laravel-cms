@@ -9,7 +9,7 @@
     @livewireStyles
     <x-dynamic-component :component="config('cms.header')" />
     {{ Vite::useHotFile('vendor/laravel-cms/laravel-cms.hot')->useBuildDirectory('vendor/laravel-cms')->withEntryPoints(['resources/css/app.css']) }}
-    {{ Vite::useHotFile('vendor/laravel-backend/laravel-backend.hot')->useBuildDirectory('vendor/laravel-backend')->withEntryPoints(['resources/css/app.css']) }}
+    {{ Vite::useHotFile('vendor/laravel-backend/laravel-backend.hot')->useBuildDirectory('vendor/laravel-backend')->withEntryPoints(['resources/css/app.css', 'resources/js/app.js']) }}
     @stack('styles')
 </head>
 @php
@@ -20,8 +20,8 @@
     @resize.window="handleResize; width = window.innerWidth">
     {{ $slot }}
     @livewireScriptConfig
-    {{ Vite::useHotFile('vendor/laravel-backend/laravel-backend.hot')->useBuildDirectory('vendor/laravel-backend')->withEntryPoints(['resources/js/app.js']) }}
     @stack('scripts')
+    <x-dynamic-component :component="config('cms.footer')" />
 </body>
 
 </html>
