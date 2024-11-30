@@ -3,6 +3,7 @@
 namespace Lianmaymesi\LaravelCms\Livewire;
 
 use Livewire\Component;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
 abstract class BaseComponent extends Component
 {
@@ -43,12 +44,28 @@ abstract class BaseComponent extends Component
     {
         $type === 'delete' ? $this->selected_id = $id : null;
         $this->showDeleteModal = true;
-        $this->milkdown = '**Header**';
     }
 
     public function close()
     {
         $this->reset('selected_id');
+    }
+
+    public function can($roleOrPermission)
+    {
+        $user = auth()->user();
+
+        if (!$user) {
+            throw UnauthorizedException::notLoggedIn();
+        }
+
+        $rolesOrPermissions = is_array($roleOrPermission)
+            ? $roleOrPermission
+            : explode('|', $roleOrPermission);
+
+        if (!$user->hasAnyRole($rolesOrPermissions) && !$user->hasAnyPermission($rolesOrPermissions)) {
+            throw UnauthorizedException::forRolesOrPermissions($rolesOrPermissions);
+        }
     }
 
     public function showColumn($value)
@@ -59,7 +76,7 @@ abstract class BaseComponent extends Component
     public function updatedSelectAllRow($value)
     {
         $this->selectedRow = $value
-            ? $this->thisPageQuery->pluck('id')->map(fn ($id) => (string) $id)
+            ? $this->thisPageQuery->pluck('id')->map(fn($id) => (string) $id)
             : [];
     }
 

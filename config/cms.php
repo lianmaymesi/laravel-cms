@@ -12,4 +12,5 @@ return [
     'preview_url' => env('LARAVEL_CMS_PREVIEW_URL'),
     'live_url' => env('LARAVEL_CMS_LIVE_URL'),
     'storage_driver' => env('LARAVEL_CMS_STORAGE_DISK', 'public'),
+    'super_admin_email' => env('LARAVEL_CMS_SUPER_ADMIN_EMAIL', 'superadmin@catalizo.com'), // Password is Secret@143
 ];

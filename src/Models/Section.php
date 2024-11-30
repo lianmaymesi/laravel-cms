@@ -2,10 +2,11 @@
 
 namespace Lianmaymesi\LaravelCms\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Section extends Model
 {
@@ -23,5 +24,12 @@ class Section extends Model
     public function theme(): BelongsTo
     {
         return $this->belongsTo(Theme::class);
+    }
+
+    public function imageUrl()
+    {
+        return $this->image
+            ? Storage::disk(config('cms.storage_driver'))->url($this->image)
+            : url('images/placeholder.jpg');
     }
 }

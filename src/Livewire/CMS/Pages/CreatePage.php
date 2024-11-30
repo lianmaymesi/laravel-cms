@@ -2,15 +2,16 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Pages;
 
-use Lianmaymesi\LaravelCms\Livewire\Forms\PageForm;
-use Lianmaymesi\LaravelCms\Models\Menu;
-use Livewire\Attributes\Computed;
-use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Computed;
+use Lianmaymesi\LaravelCms\Models\Menu;
+use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
+use Lianmaymesi\LaravelCms\Livewire\Forms\PageForm;
 
 #[Layout('cms::components.layouts.cms-app')]
-class CreatePage extends Component
+class CreatePage extends BaseComponent
 {
     use WithFileUploads;
 
@@ -25,6 +26,7 @@ class CreatePage extends Component
 
     public function create()
     {
+        $this->can('create page');
         $page = $this->form->create();
         if ($page) {
             $this->dispatch('notify-saved')->self();

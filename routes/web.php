@@ -9,7 +9,7 @@ use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\IndexPage;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\CreateSection;
 use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\IndexSection;
 
-Route::prefix(config('cms.route_prefix'))->name('cms.')->middleware('web')->group(function () {
+Route::prefix(config('cms.route_prefix'))->name('cms.')->middleware(['web', 'auth'])->group(function () {
     Route::get('/menus', IndexMenu::class)->name('menus.index');
     Route::get('/pages', IndexPage::class)->name('pages.index');
     Route::get('/pages/create', CreatePage::class)->name('pages.create');

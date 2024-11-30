@@ -20,6 +20,9 @@ class PageSection extends Pivot
 
     public function imageUrl($image)
     {
-        return Storage::disk(config('cms.storage_driver'))->url($image);
+        // dd($image);
+        return $image
+            ? Storage::disk(config('cms.storage_driver'))->url($image)
+            : url('images/placeholder.jpg');
     }
 }

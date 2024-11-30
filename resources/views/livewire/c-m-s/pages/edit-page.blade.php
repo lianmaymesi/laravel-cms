@@ -223,8 +223,9 @@
                                                                             @if (isset($sections_data[$section->pivot->id][$data['id']]) &&
                                                                                     count($sections_data[$section->pivot->id][$data['id']]) > 0)
                                                                                 @isset($sections_data[$section->pivot->id][$data['id']][$key])
-                                                                                    @if (is_object($sections_data[$section->pivot->id][$data['id']][$key]))
-                                                                                        <img src="{{ $sections_data[$section->pivot->id][$data['id']][$key]->temporaryUrl() }}"
+                                                                                    @if (request()->hasfile($sections_data[$section->pivot->id][$data['id']][$key]))
+                                                                                        @dd($sections_data[$section->pivot->id][$data['id']][$key])
+                                                                                        <img src="{{ $sections_data[$section->pivot->id][$data['id']][$key][0]->temporaryUrl() }}"
                                                                                             alt=""
                                                                                             class="w-20" />
                                                                                     @else

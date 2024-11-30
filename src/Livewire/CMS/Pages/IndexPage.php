@@ -13,6 +13,7 @@ class IndexPage extends BaseComponent
 
     public function delete()
     {
+        $this->can('delete page');
         Page::find($this->selected_id)->delete();
         $this->showDeleteModal = false;
         $this->reset('selected_id');
@@ -20,6 +21,7 @@ class IndexPage extends BaseComponent
 
     public function render()
     {
+        $this->can('index page');
         return view('cms::livewire.c-m-s.pages.index-page', [
             'pages' => Page::with(['menu' => function ($query) {
                 return $query->withDrafts(true);

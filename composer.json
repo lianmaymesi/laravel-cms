@@ -42,7 +42,8 @@
     "autoload": {
         "psr-4": {
             "Lianmaymesi\\LaravelCms\\": "src/",
-            "Lianmaymesi\\LaravelCms\\Database\\Factories\\": "database/factories/"
+            "Lianmaymesi\\LaravelCms\\Database\\Factories\\": "database/factories/",
+            "Lianmaymesi\\LaravelCms\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

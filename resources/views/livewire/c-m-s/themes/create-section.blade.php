@@ -54,6 +54,13 @@
                                     @endforeach
                                 </x-lb::form.select>
                             </x-lb::card.span-one>
+                            <x-lb::card.span-two>
+                                <x-lb::form.file wire:model="image" label="Image Preview" :error="$errors->first('image')">
+                                    @if ($image)
+                                        <img src="{{ $image->temporaryUrl() }}" alt="" class="w-24" />
+                                    @endif
+                                </x-lb::form.file>
+                            </x-lb::card.span-two>
                         </x-lb::card>
                         <x-lb::card title="Section Structure">
                             <x-lb::card.span-two>

@@ -136,13 +136,13 @@ class EditPage extends BaseComponent
     public function allmodels()
     {
         $modelList = [];
-        $path = app_path().'/Models';
+        $path = app_path() . '/Models';
         $results = scandir($path);
 
         foreach ($results as $result) {
             if ($result === '.' or $result === '..') {
-                if (is_file($path.'/'.$result)) {
-                    $model = "\App\\Models\\".pathinfo($result, PATHINFO_FILENAME);
+                if (is_file($path . '/' . $result)) {
+                    $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
                     if (defined("$model::WIDGET") && $model::WIDGET) {
                         $modelList[] = pathinfo($result, PATHINFO_FILENAME);
                     }
@@ -176,16 +176,6 @@ class EditPage extends BaseComponent
         ]);
 
         $this->form->update($draft);
-
-        foreach ($datas['sections_data'] as $sec_key => $sections_data) {
-            foreach ($sections_data as $data_key => $data) {
-                foreach ($data as $item_key => $item) {
-                    if (str_contains($item_key, 'single_image_') && is_object($datas['sections_data'][$sec_key][$data_key][$item_key])) {
-                        $datas['sections_data'][$sec_key][$data_key][$item_key] = $datas['sections_data'][$sec_key][$data_key][$item_key]->store('pages', config('cms.storage_driver'));
-                    }
-                }
-            }
-        }
 
         foreach ($this->sections_data as $sec_key => $sections_data) {
 
@@ -253,6 +243,10 @@ class EditPage extends BaseComponent
                 }
             }
 
+            if (str_contains($key, 'single_image_')) {
+                $original_data[$key]['value'][$this->language] = $value->store('pages', config('cms.storage_driver'));;
+            }
+
             if (str_contains($key, 'text_') || str_contains($key, 'textarea_') || str_contains($key, 'markdown_')) {
                 if (isset($original_data[$key]['value'][$this->language])) {
                     $original_data[$key]['value'][$this->language] = $value;
@@ -275,6 +269,7 @@ class EditPage extends BaseComponent
     #[On('edit-page')]
     public function render()
     {
+        $this->can('edit page');
         return view('cms::livewire.c-m-s.pages.edit-page');
     }
 }
