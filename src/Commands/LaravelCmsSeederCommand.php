@@ -3,7 +3,11 @@
 namespace Lianmaymesi\LaravelCms\Commands;
 
 use Illuminate\Console\Command;
+use Spatie\Permission\Models\Role;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\Permission\Models\Permission;
 
 class LaravelCmsSeederCommand extends Command
 {
@@ -22,13 +26,57 @@ class LaravelCmsSeederCommand extends Command
         Artisan::call('migrate');
 
         $this->comment('Seeding default CMS permissions...');
-        Artisan::call('db:seed', [
-            '--class' => \Lianmaymesi\LaravelCms\Database\Seeders\CmsSeeder::class,
-        ]);
+        $this->seeding();
         $this->info('Default CMS permissions seeded successfully!');
 
         $this->info('Database migrated successfully!');
 
         return self::SUCCESS;
+    }
+
+    private function seeding()
+    {
+        $permissions = [
+            'create menu',
+            'edit menu',
+            'delete menu',
+            'index menu',
+            'create page',
+            'edit page',
+            'delete page',
+            'index page',
+            'create section',
+            'edit section',
+            'delete section',
+            'index section',
+            'create theme',
+            'edit theme',
+            'delete theme',
+            'index theme',
+        ];
+
+        if (! $role = Role::where('name', 'Super Admin')->first()) {
+            $role = Role::create(['name' => 'Super Admin']);
+        }
+
+        foreach ($permissions as $permission) {
+            if (! Permission::where('name', $permission)->first()) {
+                Permission::create([
+                    'name' => $permission,
+                ]);
+                $role->givePermissionTo($permission);
+            }
+        }
+
+        if (! \App\Models\User::where('email', config('cms.super_admin_email'))->first()) {
+            $user = \App\Models\User::create([
+                'name' => 'Super Admin',
+                'email' => config('cms.super_admin_email'),
+                'password' => Hash::make('Secret@143'),
+                'email_verified_at' => now(),
+            ]);
+
+            $user->assignRole('Super Admin');
+        }
     }
 }

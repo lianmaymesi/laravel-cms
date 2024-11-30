@@ -62,7 +62,5 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
         Livewire::component('create-menu-modal', CreateMenuModal::class);
         Livewire::component('create-menu-modal', CreateMenuModal::class);
         Livewire::component('create-theme-modal', CreateThemeModal::class);
-
-        include realpath(__DIR__.'/../Database/Seeders/CmsSeeder.php');
     }
 }
