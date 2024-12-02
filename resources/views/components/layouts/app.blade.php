@@ -9,7 +9,7 @@
     @livewireStyles
     <x-dynamic-component :component="config('cms.header')" />
     {{ Vite::useHotFile('vendor/laravel-cms/laravel-cms.hot')->useBuildDirectory('vendor/laravel-cms')->withEntryPoints(['resources/css/app.css']) }}
-    {{ Vite::useHotFile('vendor/laravel-backend/laravel-backend.hot')->useBuildDirectory('vendor/laravel-backend')->withEntryPoints(['resources/css/app.css', 'resources/js/app.js']) }}
+    {{ Vite::useHotFile('vendor/laravel-backend/laravel-backend.hot')->useBuildDirectory('vendor/laravel-backend')->withEntryPoints(['resources/css/app.css']) }}
     @stack('styles')
 </head>
 @php
@@ -19,7 +19,8 @@
 <body class="m-0 h-full w-full overflow-x-hidden !overflow-y-hidden bg-slate-100 antialiased" x-data="{ ...sidebar({{ $dynamicSidebar }}), width: window.innerWidth }"
     @resize.window="handleResize; width = window.innerWidth">
     {{ $slot }}
-    @livewireScriptConfig
+    @livewireScripts
+    {{ Vite::useHotFile('vendor/laravel-backend/laravel-backend.hot')->useBuildDirectory('vendor/laravel-backend')->withEntryPoints(['resources/js/app.js']) }}
     @stack('scripts')
     <x-dynamic-component :component="config('cms.footer')" />
 </body>
