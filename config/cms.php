@@ -10,7 +10,7 @@ return [
         'top' => env('LARAVEL_CMS_NAV_TOP', 'navigation-top'),
         'bottom' => env('LARAVEL_CMS_NAV_BOTTOM', 'navigation-bottom'),
         'logout' => env('LARAVEL_CMS_LOGOUT', 'logout'),
-        'settings_url' => env('LARAVEL_CMS_SETTINGS_URL', 'settings_url')
+        'settings_url' => env('LARAVEL_CMS_SETTINGS_URL', 'settings_url'),
     ],
     'preview_url' => env('LARAVEL_CMS_PREVIEW_URL'),
     'live_url' => env('LARAVEL_CMS_LIVE_URL'),
