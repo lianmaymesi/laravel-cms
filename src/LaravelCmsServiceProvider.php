@@ -2,21 +2,21 @@
 
 namespace Lianmaymesi\LaravelCms;
 
-use Lianmaymesi\LaravelCms\Commands\LaravelCmsSeederCommand;
+use Livewire\Livewire;
+use Spatie\LaravelPackageTools\Package;
 use Lianmaymesi\LaravelCms\Livewire\CMS\IndexMenu;
 use Lianmaymesi\LaravelCms\Livewire\CMS\IndexTheme;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Modal\CreateMenuModal;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Modal\CreateThemeModal;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\CreatePage;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\EditPage;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\IndexPage;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Skeleton\ViewSkeleton;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\CreateSection;
-use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\IndexSection;
-use Livewire\Livewire;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
-use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\EditPage;
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\IndexPage;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Pages\CreatePage;
+use Lianmaymesi\LaravelCms\Commands\LaravelCmsSeederCommand;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\IndexSection;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Themes\CreateSection;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Modal\CreateMenuModal;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Skeleton\ViewSkeleton;
+use Lianmaymesi\LaravelCms\Livewire\CMS\Modal\CreateThemeModal;
 
 class LaravelCmsServiceProvider extends PackageServiceProvider
 {
@@ -24,7 +24,7 @@ class LaravelCmsServiceProvider extends PackageServiceProvider
     {
         if (app()->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../public/vendor/laravel-cms' => public_path('vendor/laravel-cms'),
+                __DIR__ . '/../public/vendor/laravel-cms' => public_path('vendor/laravel-cms'),
             ], ['cms-assets']);
         }
 

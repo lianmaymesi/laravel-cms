@@ -67,14 +67,16 @@ class LaravelCmsSeederCommand extends Command
             }
         }
 
-        if (! \App\Models\User::where('email', config('cms.super_admin_email'))->first()) {
-            $user = \App\Models\User::create([
+        if (! $user = \App\Models\User::where('email', config('cms.super_admin_email'))->first()) {
+            $newUser = \App\Models\User::create([
                 'name' => 'Super Admin',
                 'email' => config('cms.super_admin_email'),
                 'password' => Hash::make('Secret@143'),
                 'email_verified_at' => now(),
             ]);
 
+            $newUser->assignRole('Super Admin');
+        } else {
             $user->assignRole('Super Admin');
         }
     }

@@ -1,6 +1,18 @@
-@props(['name' => '', 'settingsUrl' => '', 'initials' => '', 'logoUrl' => ''])
 <x-cms::layouts.app>
-    <x-lb::partials.main max-width="full" :name="$name" :settings-url="$settingsUrl" :initials="$initials" :logo-url="$logoUrl">
+    @auth
+        @php
+            $user = auth()->user();
+        @endphp
+    @endauth
+    @guest
+        @php
+            $user = collect([
+                'name' => 'Super Admin',
+                'initials' => 'SA',
+            ]);
+        @endphp
+    @endguest
+    <x-lb::partials.main max-width="full" :name="$user->name" :settings-url="config('cms.navigation.settings_url')" :initials="$user->initials" :logo-url="config('cms.logo_url')">
 
         @section('page_title')
             @yield('page_title')
@@ -16,9 +28,25 @@
             @else
                 <x-dynamic-component :component="config('cms.navigation.top')" />
             @endif
-            @canany(['create menu', 'edit menu', 'delete menu', 'index menu', 'create page', 'edit page', 'delete page',
-                'index page', 'create section', 'edit section', 'delete section', 'index section', 'create theme', 'edit
-                theme', 'delete theme', 'index theme'])
+            @canany([
+                'create menu',
+                'edit menu',
+                'delete menu',
+                'index menu',
+                'create page',
+                'edit page',
+                'delete page',
+                'index page',
+                'create section',
+                'edit section',
+                'delete section',
+                'index section',
+                'create theme',
+                'edit
+                theme',
+                'delete theme',
+                'index theme',
+                ])
                 <x-lb::navigate.divider>CMS</x-lb::navigate.divider>
                 @canany(['create menu', 'edit menu', 'delete menu', 'index menu'])
                     <x-lb::navigate.item :route="route(config('cms.route_prefix') . '.menus.index')" :is_active="request()->is(config('cms.route_prefix') . '/menus')" no-navigate>
