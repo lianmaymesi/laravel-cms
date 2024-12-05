@@ -12,7 +12,7 @@
             ]);
         @endphp
     @endguest
-    <x-lb::partials.main max-width="full" :name="$user->name" :settings-url="config('cms.navigation.settings_url')" :initials="$user->initials" :logo-url="config('cms.logo_url')">
+    <x-lb::partials.main max-width="full" :name="$user->name" :settings-url="route(config('cms.navigation.settings_url'))" :initials="$user->initials" :logo-url="config('cms.logo_url')">
 
         @section('page_title')
             @yield('page_title')
