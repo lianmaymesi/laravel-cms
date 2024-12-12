@@ -41,6 +41,9 @@ class MenuForm extends Form
     public function add()
     {
         $this->validate([
+            'is_toplevel' => 'required',
+            'have_page' => 'required',
+            'route' => 'required_if:have_page,1',
             'label' => 'required|string',
             'placement' => 'required|array',
             'search_visible' => 'required|boolean',

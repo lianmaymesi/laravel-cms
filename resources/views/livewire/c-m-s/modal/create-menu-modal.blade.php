@@ -46,7 +46,7 @@
                             <option value="learn_more">Learn More</option>
                         </x-lb::form.select>
                     </div>
-                    <div class="col-span-2 grid gap-y-1.5 hidden">
+                    <div class="col-span-2 grid gap-y-1.5">
                         <div class="text-sm font-medium tracking-wide text-slate-950">Visible in Search</div>
                         <div class="flex gap-x-2">
                             <x-lb::form.radio label="Visible" value="1" wire:model="form.search_visible">
@@ -57,7 +57,7 @@
                             </x-lb::form.radio>
                         </div>
                     </div>
-                    <div class="col-span-2 grid gap-y-1.5 hidden">
+                    <div class="col-span-2 grid gap-y-1.5">
                         <div class="text-sm font-medium tracking-wide text-slate-950">Is this toplevel no-page?</div>
                         <div class="flex gap-x-2">
                             <x-lb::form.radio label="Visible" value="1" wire:model.live="form.is_toplevel">
@@ -68,7 +68,7 @@
                             </x-lb::form.radio>
                         </div>
                     </div>
-                    <div class="col-span-2 gap-y-1.5 hidden">
+                    <div class="col-span-2 gap-y-1.5">
                         <div class="text-sm font-medium tracking-wide text-slate-950">Have default page for this menu?
                         </div>
                         <div class="flex gap-x-2">
