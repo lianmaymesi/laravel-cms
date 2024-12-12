@@ -80,7 +80,7 @@
                             </x-lb::form.radio>
                         </div>
                     </div>
-                    <div class="hidden col-span-2" x-show="$wire.form.have_page == 1">
+                    <div class="col-span-2" x-show="$wire.form.have_page == 1">
                         <x-lb::form.input type="text" label="Route" wire:model="form.route"
                             placeholder="Ex. product.index" :error="$errors->first('form.route')"></x-lb::form.input>
                     </div>
