@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-cms` will be documented in this file.
 
+## v0.3.1 - 2024-12-12
+
+**Full Changelog**: https://github.com/lianmaymesi/laravel-cms/compare/v0.3.0...v0.3.1
+
 ## Added Basic Features - 2024-12-12
 
 - Added Search Visible, Top level menu option & so on
