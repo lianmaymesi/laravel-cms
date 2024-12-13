@@ -2,15 +2,15 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Pages;
 
-use Livewire\Attributes\On;
-use Livewire\WithFileUploads;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
-use Lianmaymesi\LaravelCms\Models\Page;
-use Lianmaymesi\LaravelCms\Models\Section;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 use Lianmaymesi\LaravelCms\Livewire\Forms\PageForm;
+use Lianmaymesi\LaravelCms\Models\Page;
+use Lianmaymesi\LaravelCms\Models\Section;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\On;
+use Livewire\WithFileUploads;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 #[Layout('cms::components.layouts.cms-app')]
@@ -137,13 +137,13 @@ class EditPage extends BaseComponent
     public function allmodels()
     {
         $modelList = [];
-        $path = app_path() . '/Models';
+        $path = app_path().'/Models';
         $results = scandir($path);
 
         foreach ($results as $result) {
             if ($result === '.' or $result === '..') {
-                if (is_file($path . '/' . $result)) {
-                    $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
+                if (is_file($path.'/'.$result)) {
+                    $model = "\App\\Models\\".pathinfo($result, PATHINFO_FILENAME);
                     if (defined("$model::WIDGET") && $model::WIDGET) {
                         $modelList[] = pathinfo($result, PATHINFO_FILENAME);
                     }
