@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-cms` will be documented in this file.
 
+## v0.5.1 - 2024-12-16
+
+### What's Changed
+
+* Bump nanoid from 3.3.7 to 3.3.8 by @dependabot in https://github.com/lianmaymesi/laravel-cms/pull/2
+
+### New Contributors
+
+* @dependabot made their first contribution in https://github.com/lianmaymesi/laravel-cms/pull/2
+
+**Full Changelog**: https://github.com/lianmaymesi/laravel-cms/compare/v0.5.0...v0.5.1
+
 ## v0.5.0 - 2024-12-16
 
 **Full Changelog**: https://github.com/lianmaymesi/laravel-cms/compare/v0.4.0...v0.5.0
