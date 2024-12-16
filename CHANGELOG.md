@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-cms` will be documented in this file.
 
+## v0.5.0 - 2024-12-16
+
+**Full Changelog**: https://github.com/lianmaymesi/laravel-cms/compare/v0.4.0...v0.5.0
+
 ## v0.4.0 Fixed Major Issues - 2024-12-13
 
 **Full Changelog**: https://github.com/lianmaymesi/laravel-cms/compare/v0.3.1...v0.4.0
