@@ -137,13 +137,13 @@ class EditPage extends BaseComponent
     public function allmodels()
     {
         $modelList = [];
-        $path = app_path() . '/Models';
+        $path = app_path().'/Models';
         $results = scandir($path);
 
         foreach ($results as $result) {
             if ($result === '.' or $result === '..') {
-                if (is_file($path . '/' . $result)) {
-                    $model = "\App\\Models\\" . pathinfo($result, PATHINFO_FILENAME);
+                if (is_file($path.'/'.$result)) {
+                    $model = "\App\\Models\\".pathinfo($result, PATHINFO_FILENAME);
                     if (defined("$model::WIDGET") && $model::WIDGET) {
                         $modelList[] = pathinfo($result, PATHINFO_FILENAME);
                     }
@@ -245,7 +245,7 @@ class EditPage extends BaseComponent
             }
 
             if (str_contains($key, 'single_image_')) {
-                if (!is_string($value)) {
+                if (! is_string($value)) {
                     $original_data[$key]['value'][$this->language] = $value->store('pages', config('cms.storage_driver'));
                 }
             }
