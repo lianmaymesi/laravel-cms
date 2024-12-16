@@ -7,7 +7,7 @@
         </x-lb::breadcrumb>
         <x-lb::actions>
             @if (count(LaravelLocalization::getSupportedLocales()) > 1)
-                <div class="flex items-center mb-2 gap-x-2">
+                <div class="mb-2 flex items-center gap-x-2">
                     @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                         <label for="{{ $localeCode }}" @class([
                             'cursor-pointer rounded-md border px-3 py-0.5 text-sm',
@@ -67,7 +67,7 @@
                         <x-lb::card title="Featured Image">
                             @if (count(LaravelLocalization::getSupportedLocales()) == 1)
                                 <x-lb::card.span-one>
-                                    <label class="text-sm font-medium tracking-wide text-slate-950 block mb-1.5">
+                                    <label class="mb-1.5 block text-sm font-medium tracking-wide text-slate-950">
                                         General Featured Image
                                     </label>
                                     <x-lb::form.file wire:model="form.page_featured_image"
@@ -84,7 +84,7 @@
                             @endif
                             @if (count(LaravelLocalization::getSupportedLocales()) > 1)
                                 <x-lb::card.span-one>
-                                    <label class="text-sm font-medium tracking-wide text-slate-950 block mb-1.5">
+                                    <label class="mb-1.5 block text-sm font-medium tracking-wide text-slate-950">
                                         Featured Image for Each Language
                                     </label>
                                     <x-lb::form.file wire:model="form.featured_image_trans"
@@ -110,7 +110,7 @@
                                 <div wire:sortable="updateSectionOrder" class="flex flex-col gap-4"
                                     x-data="{ active: null }">
                                     @foreach ($page->sections as $key => $section)
-                                        <div class="relative p-2 border rounded-lg bg-slate-100"
+                                        <div class="relative rounded-lg border bg-slate-100 p-2"
                                             wire:sortable.item="{{ $section->pivot->id }}"
                                             wire:key="section-{{ $section->pivot->id }}" x-data="{
                                                 id: {{ $key }},
@@ -122,12 +122,12 @@
                                                 },
                                             }"
                                             role="region">
-                                            <div class="flex items-center justify-between px-4 pb-2 -mx-2 border-b">
+                                            <div class="-mx-2 flex items-center justify-between border-b px-4 pb-2">
                                                 <h1>{{ $section->title }} #{{ $key + 1 }}</h1>
                                                 <div class="flex items-center gap-2">
                                                     <button type="button" x-on:click="expanded = !expanded"
                                                         :aria-expanded="expanded"
-                                                        class="p-1 bg-indigo-600 rounded-md text-indigo-50">
+                                                        class="rounded-md bg-indigo-600 p-1 text-indigo-50">
                                                         <span x-show="expanded" aria-hidden="true">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                 viewBox="0 0 24 24" stroke-width="1.5"
@@ -146,7 +146,7 @@
                                                         </span>
                                                     </button>
                                                     <button type="button" wire:sortable.handle
-                                                        class="p-1 bg-indigo-600 rounded-md text-indigo-50">
+                                                        class="rounded-md bg-indigo-600 p-1 text-indigo-50">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                             class="size-4">
@@ -157,7 +157,7 @@
                                                     <button type="button"
                                                         wire:click="trig('delete', {{ $section->pivot->id }})"
                                                         wire:target="trig('delete', {{ $section->pivot->id }})"
-                                                        class="p-1 bg-red-600 rounded-md text-red-50">
+                                                        class="rounded-md bg-red-600 p-1 text-red-50">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             viewBox="0 0 24 24" stroke-width="1.5"
                                                             stroke="currentColor" class="size-4">
@@ -172,7 +172,7 @@
                                             @endphp
                                             <div x-show="expanded" x-collapse @class(['grid gap-4 p-2 bg-slate-100 grid-cols-1 lg:grid-cols-2'])>
                                                 @foreach ($skeleton_datas as $skels_key => $data)
-                                                    <div class="flex flex-col gap-4 p-4 border rounded-md bg-slate-50">
+                                                    <div class="flex flex-col gap-4 rounded-md border bg-slate-50 p-4">
                                                         @foreach ($data['skeleton'] as $key => $value)
                                                             @php
                                                                 $formattedValue = $value['label'];
@@ -200,7 +200,7 @@
                                                                 </div>
                                                             @endif
                                                             @if (str_contains($key, 'cta_'))
-                                                                <div class="flex flex-col gap-2 p-2 border">
+                                                                <div class="flex flex-col gap-2 border p-2">
                                                                     <x-lb::form.input type="text" :label="$formattedValue . ' Button Text'"
                                                                         :placeholder="$formattedValue"
                                                                         wire:model="sections_data.{{ $section->pivot->id . '.' . $data['id'] . '.' . $key . '.text' }}">
@@ -219,29 +219,34 @@
                                                                 <x-lb::form.file :label="$formattedValue" :placeholder="$formattedValue"
                                                                     wire:model="sections_data.{{ $section->pivot->id . '.' . $data['id'] . '.' . $key }}">
                                                                     <div class="flex flex-col">
-                                                                        @if (isset($sections_data[$section->pivot->id]) && count($sections_data[$section->pivot->id]) > 0)
-                                                                            @if (isset($sections_data[$section->pivot->id][$data['id']]) &&
-                                                                                    count($sections_data[$section->pivot->id][$data['id']]) > 0)
-                                                                                @isset($sections_data[$section->pivot->id][$data['id']][$key])
-                                                                                    @if (request()->hasfile($sections_data[$section->pivot->id][$data['id']][$key]))
-                                                                                        @dd($sections_data[$section->pivot->id][$data['id']][$key])
-                                                                                        <img src="{{ $sections_data[$section->pivot->id][$data['id']][$key][0]->temporaryUrl() }}"
-                                                                                            alt=""
-                                                                                            class="w-20" />
-                                                                                    @else
-                                                                                        <img src="{{ $section->pivot->imageUrl($sections_data[$section->pivot->id][$data['id']][$key]) }}"
-                                                                                            alt=""
-                                                                                            class="w-20" />
-                                                                                    @endif
-                                                                                @endisset
-                                                                            @endif
+                                                                        @json($sections_data[$section->pivot->id][$data['id']][$key])
+                                                                        @php
+                                                                            $file =
+                                                                                $sections_data[$section->pivot->id][
+                                                                                    $data['id']
+                                                                                ][$key];
+                                                                            if (
+                                                                                $file instanceof
+                                                                                \Livewire\Features\SupportFileUploads\TemporaryUploadedFile
+                                                                            ) {
+                                                                                $imageUrl = $file->temporaryUrl();
+                                                                            } elseif (is_string($file)) {
+                                                                                $imageUrl = $section->pivot->imageUrl(
+                                                                                    $file,
+                                                                                );
+                                                                            }
+                                                                        @endphp
+
+                                                                        @if ($imageUrl)
+                                                                            <img src="{{ $imageUrl }}"
+                                                                                alt="File Image" class="w-20" />
                                                                         @endif
                                                                     </div>
                                                                 </x-lb::form.file>
                                                             @endif
                                                             @if (str_contains($key, 'model_'))
                                                                 <div
-                                                                    class="p-4 border-l-4 border-r rounded-lg border-y border-l-indigo-600">
+                                                                    class="rounded-lg border-y border-l-4 border-r border-l-indigo-600 p-4">
                                                                     <div class="mb-2 text-base font-bold">
                                                                         {{ $formattedValue }}
                                                                     </div>
@@ -330,7 +335,7 @@
                                 <div class="grid gap-y-2">
                                     @foreach ($this->sections as $key => $section)
                                         <div wire:click="addSection({{ $section->id }})"
-                                            class="px-4 py-2 text-sm duration-150 border rounded-lg cursor-pointer select-none hover:bg-indigo-600 hover:text-indigo-50">
+                                            class="cursor-pointer select-none rounded-lg border px-4 py-2 text-sm duration-150 hover:bg-indigo-600 hover:text-indigo-50">
                                             {{ $section->title }}
                                         </div>
                                     @endforeach
@@ -339,7 +344,7 @@
                         </x-lb::card>
                         <x-slot:sticky-content>
                             <x-lb::card sticky>
-                                <div class="flex items-center justify-end col-span-2 space-x-3">
+                                <div class="col-span-2 flex items-center justify-end space-x-3">
                                     <span wire:loading wire:target="update" @class(['text-sm'])>
                                         Saving
                                     </span>
