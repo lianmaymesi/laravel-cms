@@ -219,7 +219,6 @@
                                                                 <x-lb::form.file :label="$formattedValue" :placeholder="$formattedValue"
                                                                     wire:model="sections_data.{{ $section->pivot->id . '.' . $data['id'] . '.' . $key }}">
                                                                     <div class="flex flex-col">
-                                                                        @json($sections_data[$section->pivot->id][$data['id']][$key])
                                                                         @php
                                                                             $file =
                                                                                 $sections_data[$section->pivot->id][
