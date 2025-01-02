@@ -170,7 +170,7 @@
                                             @php
                                                 $skeleton_datas = $section->skeleton->skeleton['data'];
                                             @endphp
-                                            <div x-show="expanded" x-collapse @class(['grid gap-4 p-2 bg-slate-100 grid-cols-1 lg:grid-cols-2'])>
+                                            <div x-show="expanded" x-collapse @class(['grid gap-4 p-2 bg-slate-100 grid-cols-1'])>
                                                 @foreach ($skeleton_datas as $skels_key => $data)
                                                     <div class="flex flex-col gap-4 rounded-md border bg-slate-50 p-4">
                                                         @foreach ($data['skeleton'] as $key => $value)
