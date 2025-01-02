@@ -2,15 +2,18 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS;
 
+use Livewire\Attributes\On;
+use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
+use Lianmaymesi\LaravelCms\Models\Menu;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 use Lianmaymesi\LaravelCms\Livewire\Forms\MenuForm;
-use Lianmaymesi\LaravelCms\Models\Menu;
-use Livewire\Attributes\Layout;
-use Livewire\Attributes\On;
 
 #[Layout('cms::components.layouts.cms-app')]
 class IndexMenu extends BaseComponent
 {
+    use WithPagination;
+
     public ?Menu $menu = null;
 
     public MenuForm $form;
@@ -33,7 +36,7 @@ class IndexMenu extends BaseComponent
     {
         return Menu::with('children')
             ->withDrafts(true)
-            ->when($this->placement, fn ($query, $value) => $query->where('placement', $this->placement))
+            ->when($this->placement, fn($query, $value) => $query->where('placement', $this->placement))
             ->whereNull('parent_id')
             ->orderBy('order', 'asc')
             ->paginate($this->perPage);

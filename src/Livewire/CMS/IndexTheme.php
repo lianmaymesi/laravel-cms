@@ -2,14 +2,17 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS;
 
-use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
-use Lianmaymesi\LaravelCms\Models\Theme;
-use Livewire\Attributes\Layout;
 use Livewire\Attributes\On;
+use Livewire\WithPagination;
+use Livewire\Attributes\Layout;
+use Lianmaymesi\LaravelCms\Models\Theme;
+use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 
 #[Layout('cms::components.layouts.cms-app')]
 class IndexTheme extends BaseComponent
 {
+    use WithPagination;
+
     public $page_title = 'Themes List';
 
     #[On('theme-lists')]

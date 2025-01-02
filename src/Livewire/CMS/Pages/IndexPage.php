@@ -2,13 +2,16 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Pages;
 
-use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
-use Lianmaymesi\LaravelCms\Models\Page;
+use Livewire\WithPagination;
 use Livewire\Attributes\Layout;
+use Lianmaymesi\LaravelCms\Models\Page;
+use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
 
 #[Layout('cms::components.layouts.cms-app')]
 class IndexPage extends BaseComponent
 {
+    use WithPagination;
+
     public $page_title = 'Pages List';
 
     public function delete()

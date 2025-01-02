@@ -30,6 +30,7 @@
             <x-lb::table.head>
                 <x-lb::table.heading>S.No</x-lb::table.heading>
                 <x-lb::table.heading>Theme</x-lb::table.heading>
+                <x-lb::table.heading>Visual</x-lb::table.heading>
                 <x-lb::table.heading>Section Title</x-lb::table.heading>
                 <x-lb::table.heading></x-lb::table.heading>
             </x-lb::table.head>
@@ -41,6 +42,11 @@
                             {{ $section->theme->title }}
                         </x-lb::table.cell>
                         <x-lb::table.cell>
+                            <div class="flex items-center">
+                                <img src="{{ $section->imageUrl() }}" alt="" class="h-24">
+                            </div>
+                        </x-lb::table.cell>
+                        <x-lb::table.cell>
                             {{ $section->title }}
                         </x-lb::table.cell>
                         <x-lb::table.cell>
@@ -50,7 +56,7 @@
                 @empty
                     <x-lb::table.row>
                         <x-lb::table.cell colspan="4">
-                            <div class="flex justify-center w-full py-8 text-xl text-slate-500">
+                            <div class="flex w-full justify-center py-8 text-xl text-slate-500">
                                 Section(s) not found!
                             </div>
                         </x-lb::table.cell>
