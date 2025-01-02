@@ -122,49 +122,53 @@
                                                 },
                                             }"
                                             role="region">
-                                            <div class="-mx-2 flex items-center justify-between border-b px-4 pb-2">
-                                                <h1>{{ $section->title }} #{{ $key + 1 }}</h1>
-                                                <div class="flex items-center gap-2">
-                                                    <button type="button" x-on:click="expanded = !expanded"
-                                                        :aria-expanded="expanded"
-                                                        class="rounded-md bg-indigo-600 p-1 text-indigo-50">
-                                                        <span x-show="expanded" aria-hidden="true">
+                                            <div class="flex flex-col gap-4">
+                                                <img src="{{ $section->imageUrl() }}" alt=""
+                                                    x-show="!expanded">
+                                                <div class="-mx-2 flex items-center justify-between border-b px-4 pb-2">
+                                                    <h1>{{ $section->title }} #{{ $key + 1 }}</h1>
+                                                    <div class="flex items-center gap-2">
+                                                        <button type="button" x-on:click="expanded = !expanded"
+                                                            :aria-expanded="expanded"
+                                                            class="rounded-md bg-indigo-600 p-1 text-indigo-50">
+                                                            <span x-show="expanded" aria-hidden="true">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="size-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M5 12h14" />
+                                                                </svg>
+                                                            </span>
+                                                            <span x-show="!expanded" aria-hidden="true">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 24 24" stroke-width="1.5"
+                                                                    stroke="currentColor" class="size-4">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        d="M12 4.5v15m7.5-7.5h-15" />
+                                                                </svg>
+                                                            </span>
+                                                        </button>
+                                                        <button type="button" wire:sortable.handle
+                                                            class="rounded-md bg-indigo-600 p-1 text-indigo-50">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                 viewBox="0 0 24 24" stroke-width="1.5"
                                                                 stroke="currentColor" class="size-4">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M5 12h14" />
+                                                                    d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                                                             </svg>
-                                                        </span>
-                                                        <span x-show="!expanded" aria-hidden="true">
+                                                        </button>
+                                                        <button type="button"
+                                                            wire:click="trig('delete', {{ $section->pivot->id }})"
+                                                            wire:target="trig('delete', {{ $section->pivot->id }})"
+                                                            class="rounded-md bg-red-600 p-1 text-red-50">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                 viewBox="0 0 24 24" stroke-width="1.5"
                                                                 stroke="currentColor" class="size-4">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M12 4.5v15m7.5-7.5h-15" />
+                                                                    d="M6 18 18 6M6 6l12 12" />
                                                             </svg>
-                                                        </span>
-                                                    </button>
-                                                    <button type="button" wire:sortable.handle
-                                                        class="rounded-md bg-indigo-600 p-1 text-indigo-50">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="size-4">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                                        </svg>
-                                                    </button>
-                                                    <button type="button"
-                                                        wire:click="trig('delete', {{ $section->pivot->id }})"
-                                                        wire:target="trig('delete', {{ $section->pivot->id }})"
-                                                        class="rounded-md bg-red-600 p-1 text-red-50">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5"
-                                                            stroke="currentColor" class="size-4">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M6 18 18 6M6 6l12 12" />
-                                                        </svg>
-                                                    </button>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             @php
