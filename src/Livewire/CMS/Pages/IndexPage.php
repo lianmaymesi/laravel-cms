@@ -2,10 +2,10 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Pages;
 
-use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
-use Lianmaymesi\LaravelCms\Models\Page;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
+use Lianmaymesi\LaravelCms\Models\Page;
+use Livewire\Attributes\Layout;
+use Livewire\WithPagination;
 
 #[Layout('cms::components.layouts.cms-app')]
 class IndexPage extends BaseComponent

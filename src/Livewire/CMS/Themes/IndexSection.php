@@ -2,10 +2,10 @@
 
 namespace Lianmaymesi\LaravelCms\Livewire\CMS\Themes;
 
-use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
-use Lianmaymesi\LaravelCms\Models\Section;
 use Lianmaymesi\LaravelCms\Livewire\BaseComponent;
+use Lianmaymesi\LaravelCms\Models\Section;
+use Livewire\Attributes\Layout;
+use Livewire\WithPagination;
 
 #[Layout('cms::components.layouts.cms-app')]
 class IndexSection extends BaseComponent
