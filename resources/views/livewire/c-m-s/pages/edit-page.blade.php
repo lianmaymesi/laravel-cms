@@ -339,7 +339,13 @@
                                     @foreach ($this->sections as $key => $section)
                                         <div wire:click="addSection({{ $section->id }})"
                                             class="cursor-pointer select-none rounded-lg border px-4 py-2 text-sm duration-150 hover:bg-indigo-600 hover:text-indigo-50">
-                                            {{ $section->title }}
+                                            <div class="mt-4 flex flex-col gap-4">
+                                                <img src="{{ $section->imageUrl() }}" alt=""
+                                                    class="rounded-lg">
+                                                <div>
+                                                    {{ $section->title }}
+                                                </div>
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>
