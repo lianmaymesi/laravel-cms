@@ -111,7 +111,9 @@ class PageForm extends Form
         $translation = $this->page->translations()->where('language_id', Language::where('code', 'en')->first()->id)->first();
 
         if ($this->page_featured_image) {
-            Storage::disk(config('cms.storage_driver'))->delete($this->page->featured_image);
+            if ($this->page->featured_image) {
+                Storage::disk(config('cms.storage_driver'))->delete($this->page->featured_image);
+            }
             $this->page->featured_image = $this->page_featured_image->store('pages', config('cms.storage_driver'));
             if (count(LaravelLocalization::getSupportedLocales()) == 1) {
                 $translation->featured_image = $this->page->featured_image;
@@ -119,7 +121,9 @@ class PageForm extends Form
         }
 
         if ($this->featured_image_trans) {
-            Storage::disk(config('cms.storage_driver'))->delete($translation->featured_image);
+            if ($translation->featured_image) {
+                Storage::disk(config('cms.storage_driver'))->delete($translation->featured_image);
+            }
             $translation->featured_image = $this->featured_image_trans->store('pages', config('cms.storage_driver'));
         }
 
